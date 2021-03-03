@@ -37,22 +37,16 @@
       }
     }
 
-    reflow(force = false) {
-    }
-
     append(compo) {
       this.node.appendChild(compo.node);
-      this.reflow();
     }
 
     prepend(compo) {
       this.node.prependChild(compo.node);
-      this.reflow();
     }
 
     remove(compo) {
       this.node.removeChild(compo.node);
-      this.reflow();
     }
 
     // return undef

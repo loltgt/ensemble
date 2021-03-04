@@ -38,7 +38,7 @@
     }
 
     static isCompo(node) {
-      return (node && '__compo' in node ? Symbol.for(node.__compo) : false) === Symbol.for(Compo.prototype);
+      return (node && '__compo' in node ? Symbol.for(node) : false) === Symbol.for(Compo.prototype);
     }
 
     // return bool

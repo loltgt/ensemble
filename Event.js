@@ -8,9 +8,10 @@
 
 'use strict';
 
-(function(ensemble) {
+(function(window, module, require, ensemble) {
 
   class Event {
+
     constructor(name, node) {
       this.name = name;
       this.node = (node && '__compo' in node ? node.node : node) || document;
@@ -21,9 +22,11 @@
     remove(handle) {
       this.node.removeEventListener(this.name, handle);
     }
+
   }
 
 
-  globalThis.ensemble = { ...ensemble, ...{ Event } };
+  window.ensemble = { ...ensemble, ...{ Event } };
+  module.exports = Event;
 
-})(globalThis.ensemble);
+}((typeof window != 'undefined' ? window : {}), (typeof module != 'undefined' ? module : {}), (typeof require != 'undefined' ? require : function() {}), globalThis.ensemble));

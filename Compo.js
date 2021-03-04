@@ -8,7 +8,7 @@
 
 'use strict';
 
-(function(ensemble) {
+(function(window, module, require, ensemble) {
 
   class Compo {
 
@@ -96,9 +96,11 @@
     get classList() {
       return this.node.classList;
     }
+
   }
 
 
-  globalThis.ensemble = { ...ensemble, ...{ Compo } };
+  window.ensemble = { ...ensemble, ...{ Compo } };
+  module.exports = Compo;
 
-}(globalThis.ensemble));
+}((typeof window != 'undefined' ? window : {}), (typeof module != 'undefined' ? module : {}), (typeof require != 'undefined' ? require : function() {}), globalThis.ensemble));

@@ -10,17 +10,26 @@
 
 (function(window, module, require, ensemble) {
 
+  const Compo = ensemble ? ensemble.Compo : require('./Compo');
+
+
   class Event {
 
     constructor(name, node) {
       this.name = name;
-      this.node = (node && '__compo' in node ? node.node : node) || document;
+      this.node = (Compo.isCompo(node) ? node.node : node) || document;
     }
+
     add(handle, options = false) {
       this.node.addEventListener(this.name, handle, options);
     }
+
     remove(handle) {
       this.node.removeEventListener(this.name, handle);
+    }
+
+    get [Symbol.toStringTag]() {
+      return 'ensemble.Event';
     }
 
   }

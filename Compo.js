@@ -78,7 +78,7 @@
     }
 
     get children() {
-      return this.node.children;
+      return Array.prototype.map.call(this.node.children, (node) => { return node.__compo; });
     }
 
     get first() {

@@ -41,40 +41,40 @@
       return (node && '__compo' in node ? Symbol.for(node.__compo) : false) === Symbol.for(Compo.prototype);
     }
 
+    // return bool
     append(compo) {
-      this.node.appendChild(compo.node);
+      return !! this.node.appendChild(compo.node);
     }
 
+    // return bool
     prepend(compo) {
-      this.node.prependChild(compo.node);
+      return !! this.node.prependChild(compo.node);
     }
 
+    // return bool
     remove(compo) {
-      this.node.removeChild(compo.node);
+      return !! this.node.removeChild(compo.node);
     }
 
-    // return undef
     clone(deep = false) {
     }
 
-    // return undef
     hasAttr(attr) {
       return this.node.hasAttribute(attr);
     }
 
-    // return undef
     getAttr(attr) {
       return this.node.getAttribute(attr);
     }
 
     // return undef
     setAttr(attr, value) {
-      return this.node.setAttribute(attr, value);
+      this.node.setAttribute(attr, value);
     }
 
     // return undef
     delAttr(attr) {
-      return this.node.removeAttribute(attr);
+      this.node.removeAttribute(attr);
     }
 
     get children() {

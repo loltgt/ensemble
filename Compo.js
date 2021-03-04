@@ -37,6 +37,10 @@
       }
     }
 
+    static isCompo(node) {
+      return (node && '__compo' in node ? Symbol.for(node.__compo) : false) === Symbol.for(Compo.prototype);
+    }
+
     append(compo) {
       this.node.appendChild(compo.node);
     }
@@ -95,6 +99,10 @@
 
     get classList() {
       return this.node.classList;
+    }
+
+    get [Symbol.toStringTag]() {
+      return 'ensemble.Compo';
     }
 
   }

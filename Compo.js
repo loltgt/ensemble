@@ -77,6 +77,10 @@
       this.node.removeAttribute(attr);
     }
 
+    getStyle(prop) {
+      return window.getComputedStyle(this.node)[prop];
+    }
+
     get children() {
       return Array.prototype.map.call(this.node.children, (node) => { return node.__compo; });
     }

@@ -15,10 +15,11 @@
     //TODO
     // tag, name
     constructor(ns, tag, name, props) {
-      this.__compo = this;
-      this.tag = name ? tag : 'div';
-      const node = this.node = document.createElement(this.tag);
-      this.node.__compo = this;
+      const _ns = this._ns = '_' + ns;
+      const ctag = name ? tag : 'div';
+      const node = this[_ns] = document.createElement(ctag);
+
+      this[_ns].__compo = this;
 
       if (props && typeof props === 'object') {
         Object.assign(node, props);
@@ -37,72 +38,87 @@
       }
     }
 
-    static isCompo(node) {
-      return (node && '__compo' in node ? Symbol.for(node) : false) === Symbol.for(Compo.prototype);
-    }
-
     // return bool
     append(compo) {
-      return !! this.node.appendChild(compo.node);
+      const _ns = this._ns;
+      return !! this[_ns].appendChild(compo[_ns]);
     }
 
     // return bool
     prepend(compo) {
-      return !! this.node.prependChild(compo.node);
+      const _ns = this._ns;
+      return !! this[_ns].prependChild(compo[_ns]);
     }
 
     // return bool
     remove(compo) {
-      return !! this.node.removeChild(compo.node);
+      const _ns = this._ns;
+      return !! this[_ns].removeChild(compo[_ns]);
     }
 
     clone(deep = false) {
+      const _ns = this._ns;
     }
 
     hasAttr(attr) {
-      return this.node.hasAttribute(attr);
+      const _ns = this._ns;
+      return this[_ns].hasAttribute(attr);
     }
 
     getAttr(attr) {
-      return this.node.getAttribute(attr);
+      const _ns = this._ns;
+      return this[_ns].getAttribute(attr);
     }
 
     // return undef
     setAttr(attr, value) {
-      this.node.setAttribute(attr, value);
+      const _ns = this._ns;
+      this[_ns].setAttribute(attr, value);
     }
 
     // return undef
     delAttr(attr) {
-      this.node.removeAttribute(attr);
+      const _ns = this._ns;
+      this[_ns].removeAttribute(attr);
     }
 
     getStyle(prop) {
-      return window.getComputedStyle(this.node)[prop];
+      const _ns = this._ns;
+      return window.getComputedStyle(this[_ns])[prop];
     }
 
     get children() {
-      return Array.prototype.map.call(this.node.children, (node) => { return node.__compo; });
+      const _ns = this._ns;
+      return Array.prototype.map.call(this[_ns].children, (node) => { return node.__compo; });
     }
 
     get first() {
-      return this.node.firstElementChild ? this.node.firstElementChild.__compo : null;
+      const _ns = this._ns;
+      return this[_ns].firstElementChild ? this[_ns].firstElementChild.__compo : null;
     }
 
     get last() {
-      return this.node.lastElementChild ? this.node.lastElementChild.__compo : null;
+      const _ns = this._ns;
+      return this[_ns].lastElementChild ? this[_ns].lastElementChild.__compo : null;
     }
 
     get previous() {
-      return this.node.previousElementSibling ? this.node.previousElementSibling.__compo : null;
+      const _ns = this._ns;
+      return this[_ns].previousElementSibling ? this[_ns].previousElementSibling.__compo : null;
     }
 
     get next() {
-      return this.node.nextElementSibling ? this.node.nextElementSibling.__compo : null;
+      const _ns = this._ns;
+      return this[_ns].nextElementSibling ? this[_ns].nextElementSibling.__compo : null;
     }
 
     get classList() {
-      return this.node.classList;
+      const _ns = this._ns;
+      return this[_ns].classList;
+    }
+
+    static isCompo(node) {
+      return Symbol.for(node) === Symbol.for(Compo.prototype);
     }
 
     get [Symbol.toStringTag]() {

@@ -16,6 +16,7 @@
   class Event {
 
     constructor(name, node) {
+      this.__event = Symbol.for(this);
       this.name = name;
       this.node = (Compo.isCompo(node) ? node.node : node) || document;
     }
@@ -26,6 +27,10 @@
 
     remove(handle) {
       this.node.removeEventListener(this.name, handle);
+    }
+
+    static isEvent(node) {
+      return Symbol.for(node) === Symbol.for(Event.prototype);
     }
 
     get [Symbol.toStringTag]() {

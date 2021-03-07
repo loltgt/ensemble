@@ -7,6 +7,7 @@
  */
 
 const Compo = require('./Compo');
+const Data = require('./Data');
 const Event = require('./Event');
 
-module.exports = { Compo, Event };
+module.exports = { Compo, Data, Event };

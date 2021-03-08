@@ -22,11 +22,12 @@
 
       const _ns = this._ns = '_' + ns;
       this.ns = ns;
-      this[_ns] = [];
+      this[_ns] = {};
     }
 
     compo(tag, name, props, defer = false, fresh = false, stale = false) {
       const ns = this.ns;
+
       let compo;
 
       if (defer) {

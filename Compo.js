@@ -10,16 +10,19 @@
 
 (function(window, module, require, ensemble) {
 
+  const REJECTED_TAGS = /(^html|head|body|meta|link|style|script)/i;
+
   class Compo {
-    #rejectedTags = /(^html|head|body|meta|link|style|script)/i;
+    // #rejectedTags = /(^html|head|body|meta|link|style|script)/i;
 
     //TODO
     // tag, name
     constructor(ns, tag, name, props) {
       const _ns = this._ns = '_' + ns;
-      const ctag = name ? tag : 'div';
+      const ctag = name ? tag.toString() : 'div';
 
-      if (this.#rejectedTags.test(ctag)) {
+      // if (this.#rejectedTags.test(ctag)) {
+      if (REJECTED_TAGS.test(ctag)) {
         throw new Error(`ensemble.Compo error: The tag name provided (\'${ctag}\') is not a valid name.`);
       }
 
@@ -47,21 +50,17 @@
     }
 
     install(root) {
-      const _ns = this._ns;
-      root.appendChild(this[_ns]);
+      root.appendChild(this[this._ns]);
     }
 
     uninstall(root) {
-      const _ns = this._ns;
-      root.removeChild(this[_ns]);
+      root.removeChild(this[this._ns]);
     }
 
     up(node) {
-      const _ns = this._ns;
-
       this.node = Object.seal({ ref: node });
 
-      return !! node.replaceWith(this[_ns]);
+      return !! node.replaceWith(this[this._ns]);
     }
 
     // return bool
@@ -84,12 +83,10 @@
 
     //TODO
     replace(compo) {
-      const _ns = this._ns;
     }
 
     //TODO
     clone(deep = false) {
-      const _ns = this._ns;
     }
 
     inject(node) {
@@ -98,7 +95,8 @@
       if (node instanceof Element === false || node.__proto__.constructor.toString().indexOf('[native code]') === -1) {
         throw new Error(errMsg);
       }
-      if (this.#rejectedTags.test(node.tagName)) {
+      // if (this.#rejectedTags.test(node.tagName)) {
+      if (REJECTED_TAGS.test(node.tagName)) {
         throw new Error(errMsg);
 
         //TODO test all childs
@@ -107,9 +105,7 @@
 
       this.empty();
 
-      const _ns = this._ns;
-
-      this._node = this[_ns].appendChild(node);
+      this._node = this[this._ns].appendChild(node);
     }
 
     empty() {
@@ -119,55 +115,45 @@
     }
 
     hasAttr(attr) {
-      const _ns = this._ns;
-      return this[_ns].hasAttribute(attr);
+      return this[this._ns].hasAttribute(attr);
     }
 
     getAttr(attr) {
-      const _ns = this._ns;
-      return this[_ns].getAttribute(attr);
+      return this[this._ns].getAttribute(attr);
     }
 
     // return undef
     setAttr(attr, value) {
-      const _ns = this._ns;
-      this[_ns].setAttribute(attr, value);
+      this[this._ns].setAttribute(attr, value);
     }
 
     // return undef
     delAttr(attr) {
-      const _ns = this._ns;
-      this[_ns].removeAttribute(attr);
+      this[this._ns].removeAttribute(attr);
     }
 
     getStyle(prop) {
-      const _ns = this._ns;
-      return window.getComputedStyle(this[_ns])[prop];
+      return window.getComputedStyle(this[this._ns])[prop];
     }
 
     show() {
-      const _ns = this._ns;
-      this[_ns].hidden = false;
+      this[this._ns].hidden = false;
     }
 
     hide() {
-      const _ns = this._ns;
-      this[_ns].hidden = true;
+      this[this._ns].hidden = true;
     }
 
     enable() {
-      const _ns = this._ns;
-      this[_ns].disabled = false;
+      this[this._ns].disabled = false;
     }
 
     disable() {
-      const _ns = this._ns;
-      this[_ns].disabled = true;
+      this[this._ns].disabled = true;
     }
 
     get children() {
-      const _ns = this._ns;
-      return Array.prototype.map.call(this[_ns].children, (node) => { return node.__compo; });
+      return Array.prototype.map.call(this[this._ns].children, (node) => { return node.__compo; });
     }
 
     get first() {
@@ -191,8 +177,7 @@
     }
 
     get classList() {
-      const _ns = this._ns;
-      return this[_ns].classList;
+      return this[this._ns].classList;
     }
 
     static isCompo(node) {

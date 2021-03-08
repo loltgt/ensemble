@@ -30,6 +30,8 @@
       if (props && typeof props === 'object') {
         Object.assign(node, props);
       }
+
+      //TODO args coherence
       if (name != false && name != true) {
         const _name = node.className;
 
@@ -92,6 +94,7 @@
 
     inject(node) {
       const errMsg = 'ensemble.Compo error: The remote object could not be resolved into a valid node.';
+
       if (node instanceof Element === false || node.__proto__.constructor.toString().indexOf('[native code]') === -1) {
         throw new Error(errMsg);
       }

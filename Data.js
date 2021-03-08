@@ -25,20 +25,20 @@
       this[_ns] = [];
     }
 
-    compo(tag, name, props, defer = false, load = false, unload = false) {
+    compo(tag, name, props, defer = false, fresh = false, stale = false) {
       const ns = this.ns;
       let compo;
 
       if (defer) {
-        compo = { ns, tag, name, props, load, unload };
+        compo = { ns, tag, name, props, fresh, stale };
       } else {
         compo = new Compo(ns, tag, name, props);
       }
-      if (load && typeof load === 'function') {
-        compo.load = props.onload = load;
+      if (fresh && typeof fresh === 'function') {
+        compo.fresh = props.onfresh = fresh;
       }
-      if (unload && typeof unload === 'function') {
-        compo.unload = props.onunload = unload;
+      if (stale && typeof stale === 'function') {
+        compo.stale = props.onstale = stale;
       }
 
       return compo;
@@ -48,10 +48,11 @@
       const _ns = this._ns;
 
       if (this[_ns][slot] && this[_ns][slot].rendered) {
-        this[_ns][slot].load();
+        this[_ns][slot].fresh();
       } else {
-        this[_ns][slot] = { rendered: true, load: this[slot].load, unload: this[slot].unload, params: this[slot] };
+        this[_ns][slot] = { rendered: true, fresh: this[slot].fresh, stale: this[slot].stale, params: this[slot] };
         this[slot] = new Compo(this[slot].ns, this[slot].tag, this[slot].name, this[slot].props);
+        this[_ns][slot].fresh();
       }
     }
 
@@ -59,7 +60,7 @@
       const _ns = this._ns;
 
       if (this[_ns][slot] && this[_ns][slot].rendered) {
-        this[_ns][slot].unload();
+        this[_ns][slot].stale();
       }
     }
 
@@ -69,7 +70,7 @@
       if (force) {
         this[_ns][slot] = this.compo(this[_ns][slot].params.ns, this[_ns][slot].params.name, this[_ns][slot].params.props);
       } else if (this[_ns][slot] && this[_ns][slot].rendered) {
-        this[_ns][slot].load();
+        this[_ns][slot].fresh();
       }
     }
 

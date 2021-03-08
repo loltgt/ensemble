@@ -11,12 +11,18 @@
 (function(window, module, require, ensemble) {
 
   class Compo {
+    #rejectedTags = /(^html|head|body|meta|link|style|script)/i;
 
     //TODO
     // tag, name
     constructor(ns, tag, name, props) {
       const _ns = this._ns = '_' + ns;
       const ctag = name ? tag : 'div';
+
+      if (this.#rejectedTags.test(ctag)) {
+        throw new Error(`ensemble.Compo error: The tag name provided (\'${ctag}\') is not a valid name.`);
+      }
+
       const node = this[_ns] = document.createElement(ctag);
 
       this[_ns].__compo = this;
@@ -38,6 +44,24 @@
       }
     }
 
+    install(root) {
+      const _ns = this._ns;
+      root.appendChild(this[_ns]);
+    }
+
+    uninstall(root) {
+      const _ns = this._ns;
+      root.removeChild(this[_ns]);
+    }
+
+    up(node) {
+      const _ns = this._ns;
+
+      this.node = Object.seal({ ref: node });
+
+      return !! node.replaceWith(this[_ns]);
+    }
+
     // return bool
     append(compo) {
       const _ns = this._ns;
@@ -56,8 +80,39 @@
       return !! this[_ns].removeChild(compo[_ns]);
     }
 
+    //TODO
+    replace(compo) {
+      const _ns = this._ns;
+    }
+
+    //TODO
     clone(deep = false) {
       const _ns = this._ns;
+    }
+
+    inject(node) {
+      const errMsg = 'ensemble.Compo error: The remote object could not be resolved into a valid node.';
+      if (node instanceof Element === false || node.__proto__.constructor.toString().indexOf('[native code]') === -1) {
+        throw new Error(errMsg);
+      }
+      if (this.#rejectedTags.test(node.tagName)) {
+        throw new Error(errMsg);
+
+        //TODO test all childs
+
+      }
+
+      this.empty();
+
+      const _ns = this._ns;
+
+      this._node = this[_ns].appendChild(node);
+    }
+
+    empty() {
+      while (this.first) {
+        this.remove(this.first);
+      }
     }
 
     hasAttr(attr) {
@@ -85,6 +140,26 @@
     getStyle(prop) {
       const _ns = this._ns;
       return window.getComputedStyle(this[_ns])[prop];
+    }
+
+    show() {
+      const _ns = this._ns;
+      this[_ns].hidden = false;
+    }
+
+    hide() {
+      const _ns = this._ns;
+      this[_ns].hidden = true;
+    }
+
+    enable() {
+      const _ns = this._ns;
+      this[_ns].disabled = false;
+    }
+
+    disable() {
+      const _ns = this._ns;
+      this[_ns].disabled = true;
     }
 
     get children() {

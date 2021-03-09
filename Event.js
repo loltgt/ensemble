@@ -15,18 +15,20 @@
 
   class Event {
 
-    constructor(name, node) {
-      this.__event = Symbol.for(this);
-      this.name = name;
-      this.node = (Compo.isCompo(node) ? node.node : node) || document;
+    constructor(ns, name, node) {
+      const _ns = this._ns = '_' + ns;
+
+      node = (Compo.isCompo(node) ? node.node : node) || document;
+
+      this[_ns] = { name, node };
     }
 
     add(handle, options = false) {
-      this.node.addEventListener(this.name, handle, options);
+      this[this._ns].node.addEventListener(this[this._ns].name, handle, options);
     }
 
     remove(handle) {
-      this.node.removeEventListener(this.name, handle);
+      this[this._ns].node.removeEventListener(this[this._ns].name, handle);
     }
 
     static isEvent(node) {

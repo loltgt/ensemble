@@ -21,12 +21,11 @@
       }
 
       const _ns = this._ns = '_' + ns;
-      this.ns = ns;
-      this[_ns] = {};
+      this[_ns] = { ns };
     }
 
     compo(tag, name, props, defer = false, fresh = false, stale = false) {
-      const ns = this.ns;
+      const ns = this[this._ns].ns;
 
       let compo;
 

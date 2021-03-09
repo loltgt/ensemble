@@ -10,10 +10,14 @@
 
 (function(window, module, require, ensemble) {
 
-  const REJECTED_TAGS = /(^html|head|body|meta|link|style|script)/i;
+  const REJECTED_TAG_NAMES = /html|head|body|meta|link|style|script/i;
+  const REJECTED_TAGS = /(<(html|head|body|meta|link|style|script)*>)/i;
+  const DENIED_PROPS = /attributes|children|classList|innerHTML|outerHTML|nodeName|nodeType/;
 
   class Compo {
-    // #rejectedTags = /(^html|head|body|meta|link|style|script)/i;
+    // #rejectedTagNames = /html|head|body|meta|link|style|script/i;
+    // #rejectedTags = /(<(html|head|body|meta|link|style|script)*>)/i;
+    // #deniedProps = /attributes|children|classList|innerHTML|outerHTML|nodeName|nodeType/;
 
     //TODO
     // tag, name
@@ -21,8 +25,8 @@
       const _ns = this._ns = '_' + ns;
       const ctag = name ? tag.toString() : 'div';
 
-      // if (this.#rejectedTags.test(ctag)) {
-      if (REJECTED_TAGS.test(ctag)) {
+      // if (this.#rejectedTagNames.test(ctag)) {
+      if (REJECTED_TAG_NAMES.test(ctag)) {
         throw new Error(`ensemble.Compo error: The tag name provided (\'${ctag}\') is not a valid name.`);
       }
 
@@ -31,7 +35,19 @@
       this[_ns].__compo = this;
 
       if (props && typeof props === 'object') {
-        Object.assign(node, props);
+        for (const prop in props) {
+          const cprop = prop.toString();
+
+          // if (this.#deniedProps.test(cprop)) {
+          if (DENIED_PROPS.test(cprop)) {
+            throw new Error(`ensemble.Compo error: The property name provided (\'${cprop}\')' is not a valid name.`);
+          }
+          if (cprop.indexOf('on') === 0 && props[cprop]) {
+            node[cprop] = props[cprop].bind(this);
+          } else if (typeof props[cprop] != 'object') {
+            node[cprop] = props[cprop];
+          }
+        }
       }
 
       //TODO args coherence
@@ -90,17 +106,9 @@
     }
 
     inject(node) {
-      const errMsg = 'ensemble.Compo error: The remote object could not be resolved into a valid node.';
-
-      if (node instanceof Element === false || node.__proto__.constructor.toString().indexOf('[native code]') === -1) {
-        throw new Error(errMsg);
-      }
-      // if (this.#rejectedTags.test(node.tagName)) {
-      if (REJECTED_TAGS.test(node.tagName)) {
-        throw new Error(errMsg);
-
-        //TODO test all childs
-
+      // if (node instanceof Element === false || this.#rejectedTagNames.test(node.tagName) || this.#rejectedTags.test(node.innerHTML)) {
+      if (node instanceof Element === false || REJECTED_TAG_NAMES.test(node.tagName) || REJECTED_TAGS.test(node.innerHTML)) {
+        throw new Error('ensemble.Compo error: The remote object could not be resolved into a valid node.');
       }
 
       this.empty();

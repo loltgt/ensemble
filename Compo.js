@@ -12,12 +12,12 @@
 
   const REJECTED_TAG_NAMES = /html|head|body|meta|link|style|script/i;
   const REJECTED_TAGS = /(<(html|head|body|meta|link|style|script)*>)/i;
-  const DENIED_PROPS = /attributes|children|classList|innerHTML|outerHTML|nodeName|nodeType/;
+  const DENIED_PROPS = /attributes|classList|innerHTML|outerHTML|nodeName|nodeType/;
 
   class Compo {
     // #rejectedTagNames = /html|head|body|meta|link|style|script/i;
     // #rejectedTags = /(<(html|head|body|meta|link|style|script)*>)/i;
-    // #deniedProps = /attributes|children|classList|innerHTML|outerHTML|nodeName|nodeType/;
+    // #deniedProps = /attributes|classList|innerHTML|outerHTML|nodeName|nodeType/;
 
     //TODO
     // tag, name
@@ -34,7 +34,7 @@
 
       this[_ns].__compo = this;
 
-      if (props && typeof props === 'object') {
+      if (props && typeof props == 'object') {
         for (const prop in props) {
           const cprop = prop.toString();
 
@@ -46,6 +46,18 @@
             node[cprop] = props[cprop].bind(this);
           } else if (typeof props[cprop] != 'object') {
             node[cprop] = props[cprop];
+          } else if (cprop === 'children') {
+            if (typeof props[cprop] == 'object' && props[cprop].length) {
+              for (const child of props.children) {
+                const tag = child.tag;
+                const name = child.name;
+                const props = child.props;
+
+                this.append(new Compo(ns, tag, name, props));
+
+                console.log(child, node[cprop]);
+              }
+            }
           }
         }
       }
@@ -192,6 +204,7 @@
       return Symbol.for(node) === Symbol.for(Compo.prototype);
     }
 
+    //TODO undef
     get [Symbol.toStringTag]() {
       return 'ensemble.Compo';
     }

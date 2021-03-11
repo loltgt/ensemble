@@ -54,8 +54,6 @@
                 const props = child.props;
 
                 this.append(new Compo(ns, tag, name, props));
-
-                console.log(child, node[cprop]);
               }
             }
           }

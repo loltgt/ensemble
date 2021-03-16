@@ -16,6 +16,10 @@
   class Event {
 
     constructor(ns, name, node) {
+      if (! new.target) {
+        throw 'ensemble error: Wrong invocation, must be called with new.';
+      }
+
       const _ns = this._ns = '_' + ns;
 
       node = (Compo.isCompo(node) ? node.node : node) || document;

@@ -16,6 +16,10 @@
   class Data {
 
     constructor(ns, obj) {
+      if (! new.target) {
+        throw 'ensemble error: Wrong invocation, must be called with new.';
+      }
+
       if (obj && typeof obj === 'object') {
         Object.assign(this, {}, obj);
       }

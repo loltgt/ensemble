@@ -22,6 +22,10 @@
     //TODO
     // tag, name
     constructor(ns, tag, name, props) {
+      if (! new.target) {
+        throw 'ensemble error: Wrong invocation, must be called with new.';
+      }
+
       const _ns = this._ns = '_' + ns;
       const ctag = name ? tag.toString() : 'div';
 

@@ -56,7 +56,7 @@
       if (this[_ns][slot] && this[_ns][slot].rendered) {
         this[_ns][slot].fresh();
       } else {
-        this[_ns][slot] = { rendered: true, fresh: this[slot].fresh, stale: this[slot].stale, params: this[slot] };
+        this[_ns][slot] = { rendered: true, fresh: this[slot].fresh, stale: this[slot].stale, params: this[slot] };
         this[slot] = new Compo(this[slot].ns, this[slot].tag, this[slot].name, this[slot].props);
         this[_ns][slot].fresh();
       }

@@ -8,9 +8,11 @@
 
 'use strict';
 
-(function(window, module, require, ensemble) {
+// (function(window, module, require, ensemble) {
 
-  const Compo = ensemble ? ensemble.Compo : require('./Compo');
+  // const Compo = ensemble ? ensemble.Compo : require('./Compo');
+
+  import Compo from './Compo.js';
 
 
   class Data {
@@ -89,7 +91,10 @@
   }
 
 
-  window.ensemble = { ...ensemble, ...{ Data } };
-  module.exports = Data;
+  // window.ensemble = { ...ensemble, ...{ Data } };
+  // module.exports = Data;
 
-}((typeof window != 'undefined' ? window : {}), (typeof module != 'undefined' ? module : {}), (typeof require != 'undefined' ? require : function() {}), globalThis.ensemble));
+// }((typeof window != 'undefined' ? window : {}), (typeof module != 'undefined' ? module : {}), (typeof require != 'undefined' ? require : function() {}), globalThis.ensemble));
+
+
+export default Data;

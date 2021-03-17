@@ -8,9 +8,11 @@
 
 'use strict';
 
-(function(window, module, require, ensemble) {
+// (function(window, module, require, ensemble) {
 
-  const Compo = ensemble ? ensemble.Compo : require('./Compo');
+  // const Compo = ensemble ? ensemble.Compo : require('./Compo');
+
+  import Compo from './Compo.js';
 
 
   class Event {
@@ -46,7 +48,10 @@
   }
 
 
-  window.ensemble = { ...ensemble, ...{ Event } };
-  module.exports = Event;
+  // window.ensemble = { ...ensemble, ...{ Event } };
+  // module.exports = Event;
 
-}((typeof window != 'undefined' ? window : {}), (typeof module != 'undefined' ? module : {}), (typeof require != 'undefined' ? require : function() {}), globalThis.ensemble));
+// }((typeof window != 'undefined' ? window : {}), (typeof module != 'undefined' ? module : {}), (typeof require != 'undefined' ? require : function() {}), globalThis.ensemble));
+
+
+export default Event;

@@ -6,8 +6,16 @@
  * @license MIT License
  */
 
-const Compo = require('./Compo');
-const Data = require('./Data');
-const Event = require('./Event');
+// const Compo = require('./Compo');
+// const Data = require('./Data');
+// const Event = require('./Event');
 
-module.exports = { Compo, Data, Event };
+// module.exports = { Compo, Data, Event };
+
+
+import Compo from './Compo.js';
+import Data from './Data.js';
+import Event from './Event.js';
+
+
+export { Compo, Data, Event };

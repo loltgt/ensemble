@@ -8,7 +8,7 @@
 
 'use strict';
 
-(function(window, module, require, ensemble) {
+// (function(window, module, require, ensemble) {
 
   const REJECTED_TAG_NAMES = /html|head|body|meta|link|style|script/i;
   const REJECTED_TAGS = /(<(html|head|body|meta|link|style|script)*>)/i;
@@ -214,7 +214,10 @@
   }
 
 
-  window.ensemble = { ...ensemble, ...{ Compo } };
-  module.exports = Compo;
+  // window.ensemble = { ...ensemble, ...{ Compo } };
+  // module.exports = Compo;
 
-}((typeof window != 'undefined' ? window : {}), (typeof module != 'undefined' ? module : {}), (typeof require != 'undefined' ? require : function() {}), globalThis.ensemble));
+// }((typeof window != 'undefined' ? window : {}), (typeof module != 'undefined' ? module : {}), (typeof require != 'undefined' ? require : function() {}), globalThis.ensemble));
+
+
+export default Compo;

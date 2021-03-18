@@ -1,6 +1,6 @@
 # ensemble
 
-A tiny JavaScript library with a Compo component and Event \[DOM\].
+A tiny JavaScript library with wrappers around \[DOM\].
 
  
 For testing purpose — **under development**

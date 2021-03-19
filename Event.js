@@ -37,8 +37,8 @@
       this[this._ns].node.removeEventListener(this[this._ns].name, handle);
     }
 
-    static isEvent(node) {
-      return Symbol.for(node) === Symbol.for(Event.prototype);
+    static isEvent(obj) {
+      return Symbol.for(obj) === Symbol.for(Event.prototype);
     }
 
     get [Symbol.toStringTag]() {

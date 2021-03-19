@@ -80,8 +80,8 @@
       }
     }
 
-    static isData(node) {
-      return Symbol.for(node) === Symbol.for(Data.prototype);
+    static isData(obj) {
+      return Symbol.for(obj) === Symbol.for(Data.prototype);
     }
 
     get [Symbol.toStringTag]() {

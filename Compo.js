@@ -14,6 +14,11 @@
   const REJECTED_TAGS = /(<(html|head|body|meta|link|style|script)*>)/i;
   const DENIED_PROPS = /attributes|classList|innerHTML|outerHTML|nodeName|nodeType/;
 
+  //TODO
+  // backward compatibility
+  const _Symbol = typeof Symbol == 'undefined' ? 0 : Symbol;
+
+
   class Compo {
     //private proposal
 
@@ -33,6 +38,8 @@
 
       const node = this[_ns] = document.createElement(ctag);
 
+      //TODO
+      this.__Compo = true;
       this[_ns].__compo = this;
 
       if (props && typeof props == 'object') {
@@ -77,19 +84,21 @@
 
     // return bool
     install(root, cb) {
-      typeof cb === 'function' && cb.call(this, this[this._ns]);
+      typeof cb == 'function' && cb.call(this, this[this._ns]);
       return !! root.appendChild(this[this._ns]);
     }
 
     // return bool
     uninstall(root, cb) {
-      typeof cb === 'function' && cb.call(this, this[this._ns]);
+      typeof cb == 'function' && cb.call(this, this[this._ns]);
       return !! root.removeChild(this[this._ns]);
     }
 
     // return bool
     up(pholder, cb) {
-      typeof cb === 'function' && cb.call(this, this[this._ns]);
+      typeof cb == 'function' && cb.call(this, this[this._ns]);
+      //TODO
+      // backward compatibility
       return !! pholder.replaceWith(this[this._ns]);
     }
 
@@ -120,7 +129,7 @@
     }
 
     inject(node) {
-      if (node instanceof Element === false || REJECTED_TAG_NAMES.test(node.tagName) || REJECTED_TAGS.test(node.innerHTML)) {
+      if (node instanceof Element == false || REJECTED_TAG_NAMES.test(node.tagName) || REJECTED_TAGS.test(node.innerHTML)) {
         throw new Error('ensemble.Compo error: The remote object could not be resolved into a valid node.');
       }
 
@@ -131,6 +140,8 @@
 
     empty() {
       while (this.first) {
+        //TODO
+        // backward compatibility
         this.remove(this.first);
       }
     }
@@ -212,12 +223,16 @@
       return this[this._ns].classList;
     }
 
+    //TODO
+    // backward compatibility
     static isCompo(obj) {
-      return Symbol.for(obj) === Symbol.for(Compo.prototype);
+      if (_Symbol) return _Symbol.for(obj) === _Symbol.for(Compo.prototype);
+      else return obj && typeof obj == 'object' && '__Compo' in obj;
     }
 
     //TODO undef
-    get [Symbol.toStringTag]() {
+    // backward compatibility
+    get [_Symbol.toStringTag]() {
       return 'ensemble.Compo';
     }
 

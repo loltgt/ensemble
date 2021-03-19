@@ -14,6 +14,10 @@
 
   import Compo from './Compo.js';
 
+  //TODO
+  // backward compatibility
+  const _Symbol = typeof Symbol == 'undefined' ? 0 : Symbol;
+
 
   class Event {
 
@@ -26,6 +30,8 @@
 
       node = (Compo.isCompo(node) ? node.node : node) || document;
 
+      //TODO
+      this.__Event = true;
       this[_ns] = { name, node };
     }
 
@@ -37,11 +43,16 @@
       this[this._ns].node.removeEventListener(this[this._ns].name, handle);
     }
 
+    //TODO
+    // backward compatibility
     static isEvent(obj) {
-      return Symbol.for(obj) === Symbol.for(Event.prototype);
+      if (_Symbol) return _Symbol.for(obj) === _Symbol.for(Event.prototype);
+      else return obj && typeof obj == 'object' && '__Event' in obj;
     }
 
-    get [Symbol.toStringTag]() {
+    //TODO undef
+    // backward compatibility
+    get [_Symbol.toStringTag]() {
       return 'ensemble.Event';
     }
 

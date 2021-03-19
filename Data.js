@@ -14,6 +14,10 @@
 
   import Compo from './Compo.js';
 
+  //TODO
+  // backward compatibility
+  const _Symbol = typeof Symbol == 'undefined' ? 0 : Symbol;
+
 
   class Data {
 
@@ -22,11 +26,13 @@
         throw 'ensemble error: Wrong invocation, must be called with new.';
       }
 
-      if (obj && typeof obj === 'object') {
+      if (obj && typeof obj == 'object') {
         Object.assign(this, {}, obj);
       }
 
       const _ns = this._ns = '_' + ns;
+
+      this.__Data = true;
       this[_ns] = { ns };
     }
 
@@ -40,10 +46,10 @@
       } else {
         compo = new Compo(ns, tag, name, props);
       }
-      if (fresh && typeof fresh === 'function') {
+      if (fresh && typeof fresh == 'function') {
         compo.fresh = props.onfresh = fresh;
       }
-      if (stale && typeof stale === 'function') {
+      if (stale && typeof stale == 'function') {
         compo.stale = props.onstale = stale;
       }
 
@@ -80,11 +86,16 @@
       }
     }
 
+    //TODO
+    // backward compatibility
     static isData(obj) {
-      return Symbol.for(obj) === Symbol.for(Data.prototype);
+      if (_Symbol) return _Symbol.for(obj) === _Symbol.for(Data.prototype);
+      else return obj && typeof obj == 'object' && '__Data' in obj;
     }
 
-    get [Symbol.toStringTag]() {
+    //TODO undef
+    // backward compatibility
+    get [_Symbol.toStringTag]() {
       return 'ensemble.Data';
     }
 

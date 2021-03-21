@@ -8,61 +8,110 @@
 
 'use strict';
 
-// (function(window, module, require, ensemble) {
+/**
+ * @namespace ensemble
+ * @module Event
+ */
 
-  // const Compo = ensemble ? ensemble.Compo : require('./Compo');
+import Compo from './Compo.js';
 
-  import Compo from './Compo.js';
+/**
+ * @borrows Symbol as _Symbol
+ * @todo backward compatibility
+ */
+const _Symbol = typeof Symbol == 'undefined' ? 0 : Symbol;
 
-  //TODO
-  // backward compatibility
-  const _Symbol = typeof Symbol == 'undefined' ? 0 : Symbol;
 
+/**
+ * Event is an event manager.
+ * 
+ * It is a wrapper around the native Event [DOM].
+ *
+ * @example
+ * new ensemble.Event('namespace-of-my-foo-component', 'mousewheel', node).add(func, { capture: true });
+ * @lends ensemble.Event
+ * @class
+ */
+class Event {
 
-  class Event {
-
-    constructor(ns, name, node) {
-      if (! new.target) {
-        throw 'ensemble error: Wrong invocation, must be called with new.';
-      }
-
-      const _ns = this._ns = '_' + ns;
-
-      node = (Compo.isCompo(node) ? node.node : node) || document;
-
-      //TODO
-      this.__Event = true;
-      this[_ns] = { name, node };
+  /**
+   * Constructor method.
+   *
+   * @see Element.addEventListener()
+   * @see Element.removeElementListener()
+   *
+   * @constructs
+   * @global {function} ensemble.Compo
+   * @param {string} ns - Event namespace
+   * @param {string} name - The [DOM] Event type name
+   * @param {Element} node - A valid Element node -or- component
+   */
+  constructor(ns, name, node) {
+    if (! new.target) {
+      throw 'ensemble error: Bad invocation, must be called with new.';
     }
 
-    add(handle, options = false) {
-      this[this._ns].node.addEventListener(this[this._ns].name, handle, options);
-    }
+    const _ns = this._ns = '_' + ns;
 
-    remove(handle) {
-      this[this._ns].node.removeEventListener(this[this._ns].name, handle);
-    }
+    node = (Compo.isCompo(node) ? node.node : node) || document;
 
     //TODO
-    // backward compatibility
-    static isEvent(obj) {
-      if (_Symbol) return _Symbol.for(obj) === _Symbol.for(Event.prototype);
-      else return obj && typeof obj == 'object' && '__Event' in obj;
-    }
-
-    //TODO undef
-    // backward compatibility
-    get [_Symbol.toStringTag]() {
-      return 'ensemble.Event';
-    }
-
+    this.__Event = true;
+    this[_ns] = { name, node };
   }
 
+  /**
+   * Adds an event for this composition.
+   *
+   * @see Element.addEventListener()
+   *
+   * @param {function} handle - The function handler
+   * @param {mixed} options - An options Object -or- useCapture boolean
+   */
+  add(handle, options = false) {
+    this[this._ns].node.addEventListener(this[this._ns].name, handle, options);
+  }
 
-  // window.ensemble = { ...ensemble, ...{ Event } };
-  // module.exports = Event;
+  /**
+   * Removes an event from this composition.
+   *
+   * @see Element.removeElementListener()
+   *
+   * @param {function} handle - The function handler
+   * @todo ? removes handle ref.
+   */
+  remove(handle) {
+    this[this._ns].node.removeEventListener(this[this._ns].name, handle);
+  }
 
-// }((typeof window != 'undefined' ? window : {}), (typeof module != 'undefined' ? module : {}), (typeof require != 'undefined' ? require : function() {}), globalThis.ensemble));
+  /**
+   * Check if passed object is an ensemble.Event instance.
+   *
+   * @function Event.isEvent
+   * @static
+   * @returns {boolean}
+   * @todo backward compatibility
+   */
+  static isEvent(obj) {
+    if (_Symbol) return _Symbol.for(obj) === _Symbol.for(Event.prototype);
+    else return obj && typeof obj == 'object' && '__Event' in obj;
+  }
+
+  /**
+   * Getter for Symbol property, returns the symbolic name for ensemble.Event class.
+   *
+   * @see Symbol.toStringTag
+   *
+   * @override
+   * @returns {string}
+   * @todo return undef
+   * @todo backward compatibility
+   */
+  get [_Symbol.toStringTag]() {
+    return 'ensemble.Event';
+  }
+
+}
 
 
 export default Event;

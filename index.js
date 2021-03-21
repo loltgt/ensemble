@@ -6,12 +6,12 @@
  * @license MIT License
  */
 
-// const Compo = require('./Compo');
-// const Data = require('./Data');
-// const Event = require('./Event');
+'use strict';
 
-// module.exports = { Compo, Data, Event };
-
+/**
+ * @namespace ensemble
+ * @todo
+ */
 
 import Compo from './Compo.js';
 import Data from './Data.js';

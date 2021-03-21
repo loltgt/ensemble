@@ -10,7 +10,7 @@
 
 /**
  * @namespace ensemble
- * @todo
+ * @todo TODO
  */
 
 import Compo from './Compo.js';

@@ -10,7 +10,7 @@
 
 /**
  * @namespace ensemble
- * @module Data
+ * @exports Data
  */
 
 import Compo from './Compo.js';
@@ -29,8 +29,7 @@ const _Symbol = typeof Symbol == 'undefined' ? 0 : Symbol;
  * this object can store any kind of properties. 
  *
  * @example
- * new ensemble.Data('namespace-of-my-foo-component', { compo: ensemble.Compo, foo: 'a text string', foobj: 'an object' });
- * @lends ensemble.Data
+ * new ensemble.Data('namespace-of-my-foo-component', { compo: ensemble.Compo, foo: 'a text string', fooObj: 'an object' });
  * @class
  */
 class Data {
@@ -63,8 +62,7 @@ class Data {
    * When you create a composition with this method, it will create a Compo composition or simply an Object placeholder.
    * With the defer render you can have it rendered in place, refresh, or freeze.
    *
-   * @constructs
-   * @global {function} ensemble.Compo
+   * //global ensemble.Compo
    * @param {string} tag - Element node tag -or- component name
    * @param {string} name
    * @param {object} props - Properties for Element node -or- component
@@ -96,8 +94,8 @@ class Data {
   /**
    * Renderizes a composition, passed by reference.
    *
+   * //global ensemble.Compo
    * @async
-   * @global {function} ensemble.Compo
    * @param {mixed} slot - Reference of the element that will be rendered
    */
   async render(slot) {
@@ -146,7 +144,6 @@ class Data {
   /**
    * Check if passed object is an ensemble.Data instance.
    *
-   * @function Data.isData
    * @static
    * @returns {boolean}
    * @todo backward compatibility

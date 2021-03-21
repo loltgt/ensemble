@@ -10,7 +10,7 @@
 
 /**
  * @namespace ensemble
- * @module Compo
+ * @exports Compo
  */
 
 /**
@@ -33,7 +33,6 @@ const DENIED_PROPS = /attributes|classList|innerHTML|outerHTML|nodeName|nodeType
  *
  * @example
  * new ensemble.Compo('namespace-of-my-foo-component', 'div', 'foo', { id: 'fooDiv', tabIndex: 1 });
- * @lends ensemble.Compo
  * @class
  */
 class Compo {
@@ -44,11 +43,11 @@ class Compo {
    * @see document.createElement()
    * @see document.createElementNS()
    *
+   * //global document.createElement
    * @constructs
    * @constant {RegExp} REJECTED_TAG_NAMES - A regular expression for rejected tag names
    * @constant {RegExp} REJECTED_TAGS - A regular expression for rejected tag
    * @constant {RegExp} DENIED_PROPS - A regular expression for denied properties
-   * @global {function} document.createElement
    * @param {string} ns - Composition namespace
    * @param {string} tag - The [DOM] Element node tag -or- component name
    * @param {string} name
@@ -198,7 +197,7 @@ class Compo {
   /**
    * Replace this composition with another compo.
    *
-   * @todo
+   * @todo TODO
    * @param {ensemble.Compo} compo - An ensemble.Compo composition
    */
   replace(compo) {
@@ -207,7 +206,7 @@ class Compo {
   /**
    * Clones this composition.
    * 
-   * @todo
+   * @todo TODO
    * @param {boolean} deep - Clone also all compo inside this composition
    */
   clone(deep = false) {
@@ -298,7 +297,7 @@ class Compo {
    *
    * @see window.getComputedStyle()
    *
-   * @global {function} window.getComputedStyle
+   * //global window.getComputedStyle
    * @param {string} prop - A style property
    * @returns {mixed}
    */
@@ -338,7 +337,7 @@ class Compo {
    * Getter for node property, intended as the Element node inside this composition.
    * Note that a direct access to the Element node is discouraged.
    *
-   * @method getter
+   * @var {getter}
    * @returns {Element}
    */
   get node() {
@@ -350,7 +349,7 @@ class Compo {
   /**
    * Getter for parent property, intended as the parent compo of this composition.
    *
-   * @method getter
+   * @var {getter}
    * @returns {ensemble.Compo}
    */
   get parent() {
@@ -361,7 +360,7 @@ class Compo {
   /**
    * Getter for children property, intended as children compo of this composition.
    *
-   * @method getter
+   * @var {getter}
    * @returns {array}
    */
   get children() {
@@ -371,7 +370,7 @@ class Compo {
   /**
    * Getter for first property, intended as the first compo contained inside of this composition.
    *
-   * @method getter
+   * @var {getter}
    * @returns {ensemble.Compo}
    */
   get first() {
@@ -382,7 +381,7 @@ class Compo {
   /**
    * Getter for last property, intended as the last compo contained inside of this composition.
    *
-   * @method getter
+   * @var {getter}
    * @returns {ensemble.Compo}
    */
   get last() {
@@ -393,7 +392,7 @@ class Compo {
   /**
    * Getter for previous property, intended as the previous sibling of this composition.
    *
-   * @method getter
+   * @var {getter}
    * @returns {ensemble.Compo}
    */
   get previous() {
@@ -404,7 +403,7 @@ class Compo {
   /**
    * Getter for next property, intended as the next sibling of this composition.
    *
-   * @method getter
+   * @var {getter}
    * @returns {ensemble.Compo}
    */
   get next() {
@@ -415,7 +414,7 @@ class Compo {
   /**
    * Getter for classList property, intended as the classList of the Element node inside this composition.
    *
-   * @method getter
+   * @var {getter}
    * @returns {DOMTokenList}
    */
   get classList() {
@@ -425,7 +424,6 @@ class Compo {
   /**
    * Check if passed object is an ensemble.Compo instance.
    *
-   * @function Compo.isCompo
    * @static
    * @returns {boolean}
    * @todo backward compatibility

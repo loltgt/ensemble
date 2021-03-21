@@ -10,7 +10,7 @@
 
 /**
  * @namespace ensemble
- * @module Event
+ * @exports Event
  */
 
 import Compo from './Compo.js';
@@ -29,7 +29,6 @@ const _Symbol = typeof Symbol == 'undefined' ? 0 : Symbol;
  *
  * @example
  * new ensemble.Event('namespace-of-my-foo-component', 'mousewheel', node).add(func, { capture: true });
- * @lends ensemble.Event
  * @class
  */
 class Event {
@@ -40,8 +39,8 @@ class Event {
    * @see Element.addEventListener()
    * @see Element.removeElementListener()
    *
+   * //global ensemble.Compo
    * @constructs
-   * @global {function} ensemble.Compo
    * @param {string} ns - Event namespace
    * @param {string} name - The [DOM] Event type name
    * @param {Element} node - A valid Element node -or- component
@@ -87,7 +86,6 @@ class Event {
   /**
    * Check if passed object is an ensemble.Event instance.
    *
-   * @function Event.isEvent
    * @static
    * @returns {boolean}
    * @todo backward compatibility

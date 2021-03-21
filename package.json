@@ -1,0 +1,16 @@
+{
+  "name": "ensemble",
+  "version": "0.0.1",
+  "description": "A tiny JavaScript library from loltgt with wrappers around [DOM]",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "git+https://github.com/loltgt/ensemble.git",
+  "author": "Leonardo Laureti",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/loltgt/ensemble/issues"
+  },
+  "homepage": "https://github.com/loltgt/ensemble#readme"
+}

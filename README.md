@@ -154,7 +154,7 @@ class Compo_Component_React extends React.Component {
 
 
 class Compo_React extends ensemble.Compo {
-  element(name, props) {
+  _element(name, props) {
     return Compo_Component_React({ name, $: props });
   }
 

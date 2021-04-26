@@ -2,6 +2,7 @@
  * loltgt ensemble
  *
  * @version 0.0.1
+ * @link https://github.com/loltgt/ensemble
  * @copyright Copyright (C) Leonardo Laureti
  * @license MIT License
  */
@@ -13,9 +14,10 @@
  * @todo TODO
  */
 
-import Compo from './Compo.js';
-import Data from './Data.js';
-import Event from './Event.js';
+import Compo from './lib/Compo.js';
+import Snap from './lib/Compo.js';
+import Data from './lib/Data.js';
+import Event from './lib/Event.js';
 
 
-export { Compo, Data, Event };
+export { Compo, Snap, Data, Event };

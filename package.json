@@ -1,6 +1,6 @@
 {
   "name": "ensemble",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A tiny JavaScript library with wrappers around [DOM]",
   "main": "index.js",
   "scripts": {

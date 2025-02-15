@@ -1,11 +1,8 @@
 # ensemble branch:docs
 
-Repo with documentation files.
+**Deprecated repository branch**
 
-Built with [Docusarurus](https://github.com/facebook/docusaurus).
-
- 
-**beta stage**
+See ensemble repository at: https://github.com/loltgt/ensemble
 
  
 

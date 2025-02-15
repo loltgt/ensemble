@@ -1,10 +1,15 @@
 {
   "name": "ensemble",
-  "version": "0.0.2",
-  "description": "A tiny JavaScript library with wrappers around [DOM]",
+  "version": "0.0.4",
+  "description": "Tiny JS library and foundation for Lightbox, Modal and SocialShare",
   "main": "index.js",
+  "exports": "./index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx gulp build",
+    "build.js": "npx gulp build.js",
+    "build.compat": "npx gulp build.compat",
+    "build.compat.js": "npx gulp build.compat.js",
+    "watch": "npx gulp watch"
   },
   "repository": "git+https://github.com/loltgt/ensemble.git",
   "author": "Leonardo Laureti",
@@ -12,12 +17,21 @@
   "bugs": {
     "url": "https://github.com/loltgt/ensemble/issues"
   },
-  "homepage": "https://github.com/loltgt/ensemble#readme",
+  "homepage": "https://github.com/loltgt/ensemble",
   "devDependencies": {
-    "@babel/cli": "^7.13.10",
-    "@babel/plugin-transform-modules-umd": "^7.13.0",
-    "@babel/plugin-transform-object-assign": "^7.12.13",
-    "@babel/preset-env": "^7.13.10",
-    "regenerator-runtime": "^0.13.7"
+    "@babel/cli": "^7.26.4",
+    "@babel/core": "^7.26.9",
+    "@babel/preset-env": "^7.26.9",
+    "@rbnlffl/gulp-rollup": "^0.2.4",
+    "gulp": "^5.0.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^6.0.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-tap": "^2.0.0",
+    "gulp-terser": "^2.1.0",
+    "rollup": "^4.34.7",
+    "sass": "^1.85.0",
+    "terser": "^5.39.0"
   }
 }

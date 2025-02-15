@@ -1,7 +1,7 @@
-/*!
- * loltgt ensemble _composition
+/**
+ * ensemble _composition
  *
- * @version 0.0.2
+ * @version 0.0.4
  * @link https://github.com/loltgt/ensemble
  * @copyright Copyright (C) Leonardo Laureti
  * @license MIT License
@@ -23,64 +23,62 @@ const DENIED_PROPS = /attributes|classList|innerHTML|outerHTML|nodeName|nodeType
 class _composition {
 
   /**
-   * Element renderer.
-   *
-   * @todo TODO
+   * Element render
    */
-  _renderer() {
+  _render() {
     delete this._element;
-    delete this._renderer;
+    delete this._render;
   }
 
   /**
-   * Install the composition.
+   * Bounds the composition to an element
    *
    * @see Node.appendChild()
    *
-   * @param {Element} root - A valid Element node
-   * @param {function} cb - A function callback
+   * @param {Element} root A valid Element node
+   * @param {function} cb A function callback
    * @returns {boolean}
    */
-  install(root, cb) {
+  bound(root, cb) {
     typeof cb == 'function' && cb.call(this, this[this._ns]);
     return !! root.appendChild(this[this._ns]);
   }
 
   /**
-   * Uninstall the composition.
+   * Unbounds the composition from an element
    *
    * @see Node.removeChild()
    *
-   * @param {Element} root - A valid Element node
-   * @param {function} cb - A function callback
+   * @param {Element} root A valid Element node
+   * @param {function} cb A function callback
    * @returns {boolean}
    */
-  uninstall(root, cb) {
+  unbound(root, cb) {
     typeof cb == 'function' && cb.call(this, this[this._ns]);
     return !! root.removeChild(this[this._ns]);
   }
 
   /**
-   * Loads the composition replacing a placeholder element.
+   * Bounds the composition replacing a placeholder element
    *
    * @see Node.replaceWith()
    *
-   * @param {Element} pholder - A valid Element node
-   * @param {upCallback} cb - A function callback
+   * @param {Element} node A valid Element node used as placeholder
+   * @param {function} cb A function callback
    * @returns {boolean}
    * @todo backward compatibility
    */
-  up(pholder, cb) {
+  overlap(node, cb) {
     typeof cb == 'function' && cb.call(this, this[this._ns]);
-    return !! pholder.replaceWith(this[this._ns]);
+    return !! node.replaceWith(this[this._ns]);
   }
 
   /**
-   * Appends a compo inside this composition.
+   * Appends a compo inside this composition
    *
    * @see Node.appendChild()
    *
-   * @param {ensemble.Compo} compo - An ensemble.Compo composition
+   * @param {ensemble.Compo} compo An ensemble.Compo composition
    * @returns {boolean}
    */
   append(compo) {
@@ -89,11 +87,11 @@ class _composition {
   }
 
   /**
-   * Prepends a compo inside this composition.
+   * Prepends a compo inside this composition
    *
    * @see Node.prependChild()
    *
-   * @param {ensemble.Compo} compo - An ensemble.Compo composition
+   * @param {ensemble.Compo} compo An ensemble.Compo composition
    * @returns {boolean}
    */
   prepend(compo) {
@@ -102,11 +100,11 @@ class _composition {
   }
 
   /**
-   * Removes a compo from this composition.
+   * Removes a compo from this composition
    *
    * @see Node.removeChild()
    *
-   * @param {ensemble.Compo} compo - An ensemble.Compo composition
+   * @param {ensemble.Compo} compo An ensemble.Compo composition
    * @returns {boolean}
    */
   remove(compo) {
@@ -115,19 +113,20 @@ class _composition {
   }
 
   /**
-   * Inject an element node inside this composition.
-   * Note that any inner element contained will be removed.
+   * Fill this composition with an element node
+   *
+   * Note: Any inner element contained will be removed.
    *
    * @see Node.appendChild()
    *
-   * @constant {RegExp} REJECTED_TAG_NAMES - A regular expression for rejected tag names
-   * @constant {RegExp} REJECTED_TAGS - A regular expression for rejected tag
-   * @param {Element} node - A valid Element node
+   * @constant {RegExp} REJECTED_TAG_NAMES A regular expression for rejected tag names
+   * @constant {RegExp} REJECTED_TAGS A regular expression for rejected tag
+   * @param {Element} node A valid Element node
    * @returns {boolean}
    */
-  inject(node) {
+  fill(node) {
     if (node instanceof Element == false || REJECTED_TAG_NAMES.test(node.tagName) || REJECTED_TAGS.test(node.innerHTML)) {
-      throw new Error('ensemble.Compo error: The remote object could not be resolved into a valid node.');
+      throw new Error('Object cannot be resolved into a valid node.');
     }
 
     this.empty();
@@ -136,8 +135,9 @@ class _composition {
   }
 
   /**
-   * Empty this composition.
-   * Any inner element contained will be removed.
+   * Empty this composition
+   *
+   * Note: Any inner element contained will be removed.
    */
   empty() {
     while (this.first) {
@@ -146,7 +146,7 @@ class _composition {
   }
 
   /**
-   * Getter for children property, intended as children compo of this composition.
+   * Getter for children property, intended as children compo of this composition
    *
    * @var {getter}
    * @returns {array}
@@ -156,7 +156,7 @@ class _composition {
   }
 
   /**
-   * Getter for first property, intended as the first compo contained inside of this composition.
+   * Getter for first property, intended as the first compo contained inside of this composition
    *
    * @var {getter}
    * @returns {ensemble.Compo}
@@ -167,7 +167,7 @@ class _composition {
   }
 
   /**
-   * Getter for last property, intended as the last compo contained inside of this composition.
+   * Getter for last property, intended as the last compo contained inside of this composition
    *
    * @var {getter}
    * @returns {ensemble.Compo}
@@ -178,14 +178,5 @@ class _composition {
   }
 
 }
-
-
-/**
- * up callback
- *
- * @callback upCallback
- * @param {ensemble.Compo} compo
- */
-
 
 export default _composition;

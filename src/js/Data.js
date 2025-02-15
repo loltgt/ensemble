@@ -1,7 +1,7 @@
-/*!
- * loltgt ensemble.Data
+/**
+ * ensemble Data
  *
- * @version 0.0.2
+ * @version 0.0.4
  * @link https://github.com/loltgt/ensemble
  * @copyright Copyright (C) Leonardo Laureti
  * @license MIT License
@@ -19,27 +19,27 @@ import Compo from './Compo.js';
 
 
 /**
- * Data is a multi-purpose utility object.
+ * Data is a multi-purpose utility object
  * 
- * It could be used as a wrapper around a Compo composition, 
+ * It could be used as a wrap around a Compo composition, 
  * this object can store any kind of properties. 
  *
  * @class
  * @example
- * new ensemble.Data('namespace-of-my-foo-component', { compo: ensemble.Compo, foo: 'a text string', fooObj: 'an object' });
+ * new ensemble.Data('component-namespace', {compo: ensemble.Compo, foo: 'a string', fooObj: 'an object'});
  */
 class Data {
 
   /**
-   * Constructor method.
+   * Constructor method
    *
    * @constructs
-   * @param {string} ns - Data namespace
-   * @param {object} obj - A starter Object
+   * @param {string} ns Data namespace
+   * @param {object} obj A starter Object
    */
   constructor(ns, obj) {
     if (! new.target) {
-      throw 'ensemble.Data error: Bad invocation, must be called with new.';
+      throw 'Bad invocation. Must be called with `new`.';
     }
 
     if (obj && typeof obj == 'object') {
@@ -53,18 +53,18 @@ class Data {
   }
 
   /**
-   * The compo method is a utility render.
+   * The compo method is a utility to render elements
    * 
-   * When you create a composition with this method, it will create a Compo composition or simply an Object placeholder.
-   * With the defer render you can have it rendered in place, refresh, or freeze.
+   * When you create a composition with this method, it will create a Compo composition or an Object placeholder.
+   * With the defer render you can render it in place.
    *
-   * @param {string} tag - Element node tag -or- component name
+   * @param {string} tag Element node tag or component name
    * @param {string} name
-   * @param {object} props - Properties for Element node -or- component
-   * @param {boolean} defer - Defer render for composition
-   * @param {mixed} fresh - A function callback, called when is loaded the compo
-   * @param {mixed} stale - A function callback, called when is unloaded the compo
-   * @returns {mixed} compo - An ensemble.Compo element -or- an Object placeholder 
+   * @param {object} props Properties for Element node or component
+   * @param {boolean} defer Defer render for composition
+   * @param {mixed} fresh A function callback, called on load compo
+   * @param {mixed} stale A function callback, called on unload compo
+   * @returns {mixed} compo An ensemble.Compo element or an Object placeholder 
    */
   compo(tag, name, props, defer = false, fresh = false, stale = false) {
     const ns = this[this._ns].ns;
@@ -72,7 +72,7 @@ class Data {
     let compo;
 
     if (defer) {
-      compo = { ns, tag, name, props, fresh, stale };
+      compo = {ns, tag, name, props, fresh, stale};
     } else {
       compo = new Compo(ns, tag, name, props);
     }
@@ -87,10 +87,10 @@ class Data {
   }
 
   /**
-   * Renderizes a composition, passed by reference.
+   * Renderizes a composition, passed by reference
    *
    * @async
-   * @param {mixed} slot - Reference of the element that will be rendered
+   * @param {mixed} slot Reference of the element to render
    */
   async render(slot) {
     const _ns = this._ns;
@@ -98,17 +98,17 @@ class Data {
     if (this[_ns][slot] && this[_ns][slot].rendered) {
       this[_ns][slot].fresh();
     } else {
-      this[_ns][slot] = { rendered: true, fresh: this[slot].fresh, stale: this[slot].stale, params: this[slot] };
+      this[_ns][slot] = {rendered: true, fresh: this[slot].fresh, stale: this[slot].stale, params: this[slot]};
       this[slot] = new Compo(this[slot].ns, this[slot].tag, this[slot].name, this[slot].props);
       this[_ns][slot].fresh();
     }
   }
 
   /**
-   * Freezes a composition, passed by reference.
+   * Freezes a composition, passed by reference
    *
    * @async
-   * @param {mixed} slot - Reference of the element that will be rendered
+   * @param {mixed} slot Reference of the element to render
    */
   async stale(slot) {
     const _ns = this._ns;
@@ -119,11 +119,11 @@ class Data {
   }
 
   /**
-   * Refresh a composition, passed by reference.
+   * Refresh a composition, passed by reference
    *
    * @async
-   * @param {mixed} slot - Reference of the element that will be rendered.
-   * @param {boolean} force - It forces the reflow.
+   * @param {mixed} slot Reference of the element to render
+   * @param {boolean} force It forces reflow
    */
   async reflow(slot, force) {
     const _ns = this._ns;
@@ -136,11 +136,10 @@ class Data {
   }
 
   /**
-   * Check if passed object is an ensemble.Data instance.
+   * Checks passed object is an ensemble.Data instance
    *
    * @static
    * @returns {boolean}
-   * @todo backward compatibility
    */
   static isData(obj) {
     if (_Symbol) return _Symbol.for(obj) === _Symbol.for(Data.prototype);
@@ -148,14 +147,12 @@ class Data {
   }
 
   /**
-   * Getter for Symbol property, returns the symbolic name for ensemble.Data class.
+   * Getter for Symbol property, returns the symbolic name for ensemble.Data class
    *
    * @see Symbol.toStringTag
    *
    * @override
    * @returns {string}
-   * @todo return undef
-   * @todo backward compatibility
    */
   get [_Symbol.toStringTag]() {
     return 'ensemble.Data';

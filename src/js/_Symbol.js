@@ -1,7 +1,7 @@
-/*!
- * loltgt ensemble _Symbol
+/**
+ * ensemble _Symbol
  *
- * @version 0.0.2
+ * @version 0.0.4
  * @link https://github.com/loltgt/ensemble
  * @copyright Copyright (C) Leonardo Laureti
  * @license MIT License

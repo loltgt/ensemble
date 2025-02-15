@@ -1,0 +1,26 @@
+section button {
+  display: block;
+  margin: 1.5rem 0 0;
+  padding: 1rem 1.5rem;
+  font: inherit;
+  font-size: .9rem;
+  font-weight: bold;
+  line-height: 1;
+  color: #f5f5f5;
+  background: #24304c;
+  border: 0;
+  border-radius: .3rem;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+
+  &:active, &:focus {
+    color: #fff;
+    background: #1c356c;
+    outline: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  &:hover {
+    opacity: .95;
+  }
+}

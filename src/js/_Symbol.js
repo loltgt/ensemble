@@ -11,7 +11,6 @@
  * @see Symbol()
  *
  * @borrows Symbol as _Symbol
- * @todo backward compatibility
  */
 const _Symbol = typeof Symbol == 'undefined' ? 0 : Symbol;
 

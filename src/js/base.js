@@ -20,19 +20,33 @@ import Event from './Event.js';
 
 
 /**
- * A base class for ensemble components
+ * The base class for ensemble components
  *
  * @class
- * @abstract
- * @param {Element} [element] A valid element, could be used within the extending class
- * @param {object} options Options object
- * @example
- * new base([, element], options)
  */
 class base {
 
   /**
+   * Default properties
+   *
+   * @virtual
+   * @returns {object}
+   */
+  _defaults() { return {}; }
+
+  /**
+   * Methods binding
+   *
+   * @virtual
+   */
+  _bindings() {}
+
+  /**
    * Constructor method
+   *
+   * @constructs
+   * @param {Element} [element] A valid element
+   * @param {object} options Options object
    */
   constructor() {
     let element, options;
@@ -60,64 +74,67 @@ class base {
   }
 
   /**
-   * Creates an options Object from a defaults object of pre-defined properties
+   * Creates an options Object from a defaults object
    * 
-   * Note: Supports only the first level depth.
+   * Note: Supports only first level depth.
    *
    * @param {object} defaults The default options Object
-   * @param {object} options An options Object to extends
+   * @param {object} options An options Object to extend defaults
    * @returns {object}
    */
   defaults(defaults, options) {
-    const obj = {};
+    const opts = {};
 
     for (const key in defaults) {
       if (defaults[key] != null && typeof defaults[key] == 'object') {
-        obj[key] = Object.assign(defaults[key], options[key]);
+        opts[key] = Object.assign(defaults[key], options[key]);
       } else {
-        obj[key] = typeof options[key] != 'undefined' ? options[key] : defaults[key];
+        opts[key] = typeof options[key] != 'undefined' ? options[key] : defaults[key];
       }
     }
 
-    return obj;
+    return opts;
   }
 
   /**
-   * Shorthand method for ensemble.Compo class
+   * Shorthand method for ensemble Compo class
    *
-   * When passed the first argument it makes a new Compo instance, 
-   * otherwise it returns a reference to the Compo class.
+   * When passed the first argument, makes a new Compo instance 
+   * otherwise returns a reference to the Compo class.
    *
-   * @param {string} ns Composition namespace
-   * @param {string} [tag='div'] The [DOM] Element node tag or component name, empty for ensemble.Compo class reference
+   * @param {string} [tag='div'] The Element node name or component name, empty for ensemble Compo class reference
    * @param {mixed} [name] The composition name, used for CSS className
-   * @returns {mixed} Instance of ensemble.Data or ensemble.Data class reference
+   * @returns {mixed} Instance of ensemble Data or ensemble Data class reference
    */
   compo(tag, name, props) {
-    return tag != undefined ? new Compo(this.options.ns, tag, name, props) : Compo;
+    const options = this.options, ns = options.ns;
+    return tag != undefined ? new Compo(ns, tag, name, props) : Compo;
   }
 
   /**
-   * Shorthand method for ensemble.Data class
+   * Shorthand method for ensemble Data class
    *
-   * When passed the first argument it makes a new Data instance, 
-   * otherwise it returns a reference to the Data class.
+   * When passed the first argument, makes a new Data instance 
+   * otherwise returns a reference to the Data class.
    *
-   * @param {object} obj A starter Object, empty for ensemble.Data class reference
-   * @returns {mixed} Instance of ensemble.Data or ensemble.Data class reference
+   * @param {object} obj A starter Object, empty for ensemble Data class reference
+   * @returns {mixed} Instance of ensemble Data or ensemble Data class reference
    */
   data(obj) {
-    return obj != undefined ? new Data(this.options.ns, obj) : Data;
+    const options = this.options, ns = options.ns;
+    return obj != undefined ? new Data(ns, obj) : Data;
   }
 
   /**
-   * Shorthand method for ensemble.Event class
+   * Shorthand method for ensemble Event class
    *
-   * When the passed first argument is a string it makes a new Event instance, 
-   * if you pass an Event as the first argument, a preventDefault and blur will be performed, 
+   * When the passed first argument is a string makes a new Event instance 
    * otherwise it returns a reference to the Event class.
+   * 
+   * Passing an Event as the first argument, 
+   * element preventDefault and blur will be performed.
    *
-   * @param {object} obj A starter Object, empty for ensemble.Event class reference
+   * @param {object} obj A starter Object, empty for ensemble Event class reference
    * @returns {mixed}
    */
   event(event, node) {
@@ -125,6 +142,7 @@ class base {
       return new Event(this.options.ns, event, node);
     } else if (event) {
       event.preventDefault();
+      //TODO delay
       event.target.blur();
     } else {
       return Event;
@@ -132,12 +150,12 @@ class base {
   }
 
   /**
-   * Shortcut to querySelectorAll() and querySelector() [DOM]
+   * Shorthand for querySelectorAll and querySelector [DOM]
    *
-   * @see Element.querySelectorAll()
-   * @see Element.querySelector()
+   * @see Element.querySelectorAll
+   * @see Element.querySelector
    *
-   * @param {string} query A text query
+   * @param {string} query Text query
    * @param {Element} node An Element node where find
    * @param {boolean} all Find single or multiple elements
    * @return {mixed} Element or ElementCollection
@@ -149,9 +167,9 @@ class base {
   }
 
   /**
-   * Shortcut to appendChild() [DOM]
+   * Shorthand for Element.appendChild [DOM]
    *
-   * @see Element.appendChild()
+   * @see Element.appendChild
    *
    * @param {Element} parent An Element parent
    * @param {Element} node An Element node to append
@@ -162,9 +180,9 @@ class base {
   }
 
   /**
-   * Shortcut to prependChild() [DOM]
+   * Shorthand for Element.prependChild [DOM]
    *
-   * @see Element.prependChild()
+   * @see Element.prependChild
    *
    * @param {Element} parent An Element parent
    * @param {Element} node An Element node to prepend
@@ -175,9 +193,9 @@ class base {
   }
 
   /**
-   * Shortcut to cloneNode() [DOM]
+   * Shorthand for Element.removeNode [DOM]
    *
-   * @see Element.removeNode()
+   * @see Element.removeNode
    *
    * @param {Element} parent An Element parent
    * @param {Element} node An Element node to remove
@@ -188,12 +206,12 @@ class base {
   }
 
   /**
-   * Shortcut to Element.cloneNode() [DOM]
+   * Shorthand for Element.cloneNode [DOM]
    *
-   * @see Element.cloneNode()
+   * @see Element.cloneNode
    *
    * @param {Element} node An Element node to clone
-   * @param {boolean} deep Clone also all children of the Element node
+   * @param {boolean} deep Clone the whole Element node tree
    * @returns {boolean}
    */
   cloneNode(node, deep = false) {
@@ -201,9 +219,9 @@ class base {
   }
 
   /**
-   * Shortcut to Element.hasAttribute() [DOM]
+   * Shorthand for Element.hasAttribute [DOM]
    *
-   * @see Element.hasAttribute()
+   * @see Element.hasAttribute
    *
    * @param {Element} node An Element node
    * @param {string} attr An attribute
@@ -214,9 +232,9 @@ class base {
   }
 
   /**
-   * Shortcut to Element.getAttribute() [DOM]
+   * Shorthand for Element.getAttribute [DOM]
    *
-   * @see Element.getAttribute()
+   * @see Element.getAttribute
    *
    * @param {Element} node An Element node
    * @param {string} attr An attribute
@@ -227,9 +245,9 @@ class base {
   }
 
   /**
-   * Shortcut to Element.setAttribute() [DOM]
+   * Shorthand for Element.setAttribute [DOM]
    *
-   * @see Element.setAttribute()
+   * @see Element.setAttribute
    *
    * @param {Element} node An Element node
    * @param {string} attr An attribute
@@ -240,9 +258,9 @@ class base {
   }
 
   /**
-   * Shortcut to Element.removettribute() [DOM]
+   * Shorthand for Element.removeAttribute [DOM]
    *
-   * @see Element.removeAttribute()
+   * @see Element.removeAttribute
    *
    * @param {Element} node An Element node
    * @param {string} attr An attribute
@@ -252,7 +270,26 @@ class base {
   }
 
   /**
-   * Creates a proxy function with bindings to instance and optionally an event
+   * Gets the time from a style property of an element
+   *
+   * @see window.getComputedStyle
+   *
+   * @param {mixed} node An Element node or an ensemble Compo composition
+   * @param {string} prop A style property
+   * @returns {int} time Delay time in milliseconds
+   */
+  getTime(node, prop = 'transitionDuration') {
+    let time = Compo.isCompo(node) ? node.getStyle(prop) : window.getComputedStyle(node)[prop];
+
+    if (time) {
+      time = time.indexOf('s') ? (parseFloat(time) * 1e3) : parseInt(time);
+    }
+
+    return time || 0;
+  }
+
+  /**
+   * Creates a proxy function to the instance
    *
    * @param {function} method A method from the current instance
    * @returns {function}
@@ -265,37 +302,18 @@ class base {
   }
 
   /**
-   * Provides a delay and executes a callback function
+   * Provides a delay with callback function
    *
-   * @see window.setTimeout()
+   * @see window.setTimeout
    *
-   * @param {function} func A function callback
-   * @param {mixed} node An Element node or an ensemble.Compo composition
+   * @param {function} func A callback function
+   * @param {mixed} node An Element node or an ensemble Compo composition
    * @param {int} time Default delay time in milliseconds
    */
   delay(func, node, time) {
-    const delay = node ? this.timing(node) : 0;
+    const delay = node ? this.getTime(node) : 0;
 
     setTimeout(func, delay || time);
-  }
-
-  /**
-   * Calculates a time, based on a time property of the style of an element
-   *
-   * @see window.getComputedStyle()
-   *
-   * @param {mixed} node An Element node or an ensemble.Compo composition
-   * @param {string} prop A style property
-   * @returns {int} time Delay time in milliseconds
-   */
-  timing(node, prop = 'transitionDuration') {
-    let time = Compo.isCompo(node) ? node.getStyle(prop) : window.getComputedStyle(node)[prop];
-
-    if (time) {
-      time = time.indexOf('s') ? (parseFloat(time) * 1e3) : parseInt(time);
-    }
-
-    return time || 0;
   }
 
 }

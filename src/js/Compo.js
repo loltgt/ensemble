@@ -24,16 +24,16 @@ const DENIED_PROPS = /attributes|classList|innerHTML|outerHTML|nodeName|nodeType
 
 
 /**
- * Compo is a composition element with shorthands method and utils
+ * Compo is a composition element with shorthand methods and utils
  * 
- * It is a wrap around an Element node [DOM]
+ * It is a wrap around Element node [DOM]
  * It could be used as base for abstraction of a custom component element.
  *
  * @class
  * @extends _composition
  * @inheritdoc
  * @example
- * new ensemble.Compo('component-namespace', 'div', 'foo', {id: 'fooDiv', tabIndex: 1});
+ * new ensemble.Compo('compo-namespace', 'div', 'compo-name', {id: 'compo-id', tabIndex: 1});
  */
 class Compo extends _composition {
 
@@ -41,15 +41,15 @@ class Compo extends _composition {
    * Constructor method
    *
    * @constructs
-   * @constant {RegExp} REJECTED_TAG_NAMES A regular expression for rejected tag names
-   * @constant {RegExp} REJECTED_TAGS A regular expression for rejected tag
-   * @constant {RegExp} DENIED_PROPS A regular expression for denied properties
+   * @constant {RegExp} REJECTED_TAG_NAMES Regular expression for rejected tag names
+   * @constant {RegExp} REJECTED_TAGS Regular expression for rejected tag
+   * @constant {RegExp} DENIED_PROPS Regular expression for denied properties
    * @param {string} ns Component namespace
-   * @param {string} [tag='div'] The Element node name [DOM] or component name
-   * @param {(string|string[])} [name] The composition name, used for CSS className
+   * @param {string} [tag='div'] The Element node name or component name
+   * @param {string[]} [name] The composition name, used for CSS className
    * @param {object} [props] Properties for composition
-   * @param {object} [options] An optional ElementCreationOptions object [DOM]
-   * @param {object} [elementNS] Options for namespaced Element node [DOM]
+   * @param {object} [options] An optional ElementCreationOptions object
+   * @param {object} [elementNS] Options for namespaced Element node
    * @param {string} [elementNS.namespaceURI] A valid namespace URI
    * @param {string} [elementNS.qualifiedName] A valid qualified name
    */
@@ -60,17 +60,17 @@ class Compo extends _composition {
 
     super();
 
-    const _ns = this._ns = '_' + ns;
-    const nn = tag ? tag.toString() : 'div';
+    const ns0 = this.ns = '_' + ns;
+    const nodeName = tag ? tag.toString() : 'div';
 
-    if (REJECTED_TAG_NAMES.test(nn)) {
+    if (REJECTED_TAG_NAMES.test(nodeName)) {
       throw new Error('Provided node name is not a valid name.');
     }
 
-    const node = this[_ns] = this._element(ns, nn, name, props, options, elementNS);
+    const el = this[ns0] = this._element(ns, nodeName, name, props, options, elementNS);
 
     this.__Compo = true;
-    this[_ns].__compo = this;
+    this[ns0].__compo = this;
 
     if (props && typeof props == 'object') {
       for (const prop in props) {
@@ -81,9 +81,9 @@ class Compo extends _composition {
         }
         //TODO dataset
         if (p.indexOf('on') === 0 && props[p] && typeof props[p] == 'function') {
-          node[p] = props[p].bind(this);
+          el[p] = props[p].bind(this);
         } else if (typeof props[p] != 'object') {
-          node[p] = props[p];
+          el[p] = props[p];
         } else if (p == 'children') {
           if (typeof props[p] == 'object' && props[p].length) {
             for (const child of props.children) {
@@ -99,18 +99,18 @@ class Compo extends _composition {
     }
 
     if (name) {
-      const nc = node.className;
+      const nodeClass = el.className;
 
-      node.className = '';
+      el.className = '';
 
       if (typeof name == 'string') {
-        node.className = ns + '-' + name;
+        el.className = ns + '-' + name;
       } else if (typeof name == 'object') {
-        node.className = name.map((a) => (ns + '-' + a)).join(' ');
+        el.className = name.map((a) => (ns + '-' + a)).join(' ');
       }
 
-      if (nc) {
-        node.className += ' ' + nc;
+      if (nodeClass) {
+        el.className += ' ' + nodeClass;
       }
     }
 
@@ -120,15 +120,15 @@ class Compo extends _composition {
   /**
    * Element wrapper
    *
-   * @see document.createElement()
-   * @see document.createElementNS()
+   * @see document.createElement
+   * @see document.createElementNS
    *
    * @param {string} ns Component namespace
    * @param {string} tag The Element node name or component name
    * @param {string} name Name for composition, used for CSS className
    * @param {object} props Properties for composition
-   * @param {object} [options] An optional ElementCreationOptions object [DOM]
-   * @param {object} [elementNS] Options for namespaced Element node [DOM]
+   * @param {object} [options] An optional ElementCreationOptions object
+   * @param {object} [elementNS] Options for namespaced Element node
    * @param {string} [elementNS.namespaceURI] A valid namespace URI
    * @param {string} [elementNS.qualifiedName] A valid qualified name
    */
@@ -140,92 +140,101 @@ class Compo extends _composition {
   /**
    * Checks for an attribute of this composition
    *
-   * @see Element.hasAttribute()
+   * @see Element.hasAttribute
    *
    * @param {string} attr An attribute
    * @returns {boolean}
    */
   hasAttr(attr) {
-    return this[this._ns].hasAttribute(attr);
+    const ns = this.ns, el = this[ns];
+    return el.hasAttribute(attr);
   }
 
   /**
    * Gets an attribute from this composition
    *
-   * @see Element.getAttribute()
+   * @see Element.getAttribute
    *
    * @param {string} attr An attribute
    * @returns {string}
    */
   getAttr(attr) {
-    return this[this._ns].getAttribute(attr);
+    const ns = this.ns, el = this[ns];
+    return el.getAttribute(attr);
   }
 
   /**
    * Sets an attribute in this composition
    *
-   * @see Element.setAttribute()
+   * @see Element.setAttribute
    *
    * @param {string} attr An attribute
    * @param {string} value The value
    */
   setAttr(attr, value) {
-    this[this._ns].setAttribute(attr, value);
+    const ns = this.ns, el = this[ns];
+    el.setAttribute(attr, value);
   }
 
   /**
    * Removes an attribute from this composition
    *
-   * @see Element.removeAttribute()
+   * @see Element.removeAttribute
    *
    * @param {string} attr An attribute
    */
   delAttr(attr) {
-    this[this._ns].removeAttribute(attr);
+    const ns = this.ns, el = this[ns];
+    el.removeAttribute(attr);
   }
 
   /**
    * Gets a current style property
    *
-   * @see window.getComputedStyle()
+   * @see window.getComputedStyle
    *
    * @param {string} prop A style property
    * @returns {mixed}
    */
   getStyle(prop) {
-    return window.getComputedStyle(this[this._ns])[prop];
+    const ns = this.ns, el = this[ns];
+    return window.getComputedStyle(el)[prop];
   }
 
   /**
    * Shows this composition
    */
   show() {
-    this[this._ns].hidden = false;
+    const ns = this.ns, el = this[ns];
+    el.hidden = false;
   }
 
   /**
    * Hides this composition
    */
   hide() {
-    this[this._ns].hidden = true;
+    const ns = this.ns, el = this[ns];
+    el.hidden = true;
   }
 
   /**
    * Util to set attribute disabled to true
    */
   enable() {
-    this[this._ns].disabled = false;
+    const ns = this.ns, el = this[ns];
+    el.disabled = false;
   }
 
   /**
    * Util to set attribute disabled to false
    */
   disable() {
-    this[this._ns].disabled = true;
+    const ns = this.ns, el = this[ns];
+    el.disabled = true;
   }
 
   /**
-   * Getter for node property, intended as the Element node inside this composition
+   * Getter for node property, the Element node in this composition
    *
    * Note: Direct access to the node is discouraged.
    *
@@ -235,44 +244,44 @@ class Compo extends _composition {
   get node() {
     console.warn('Direct access to the node is discouraged.');
 
-    return this[this._ns];
+    return this[this.ns];
   }
 
   /**
-   * Getter for parent property, intended as the parent compo of this composition
+   * Getter for parent property, the parent compo of this composition
    *
    * @var {getter}
-   * @returns {ensemble.Compo}
+   * @returns {Compo}
    */
   get parent() {
-    const _ns = this._ns;
-    return this[_ns].parentElement && '__compo' in this[_ns].parentElement ? this[_ns].parentElement.__compo : null;
+    const ns = this.ns, el = this[ns];
+    return el.parentElement && '__compo' in el.parentElement ? el.parentElement.__compo : null;
   }
 
   /**
-   * Getter for previous property, intended as the previous sibling of this composition
+   * Getter for previous property, the previous sibling of this composition
    *
    * @var {getter}
-   * @returns {ensemble.Compo}
+   * @returns {Compo}
    */
   get previous() {
-    const _ns = this._ns;
-    return this[_ns].previousElementSibling ? this[_ns].previousElementSibling.__compo : null;
+    const ns = this.ns, el = this[ns];
+    return el.previousElementSibling ? el.previousElementSibling.__compo : null;
   }
 
   /**
-   * Getter for next property, intended as the next sibling of this composition
+   * Getter for next property, the next sibling of this composition
    *
    * @var {getter}
-   * @returns {ensemble.Compo}
+   * @returns {Compo}
    */
   get next() {
-    const _ns = this._ns;
-    return this[_ns].nextElementSibling ? this[_ns].nextElementSibling.__compo : null;
+    const ns = this.ns, el = this[ns];
+    return el.nextElementSibling ? el.nextElementSibling.__compo : null;
   }
 
   /**
-   * Getter for classList property, intended as the classList of the Element node inside this composition
+   * Getter for classList property, the classList of the Element node in this composition
    *
    * @see DOMTokenList
    *
@@ -280,11 +289,12 @@ class Compo extends _composition {
    * @returns {DOMTokenList}
    */
   get classList() {
-    return this[this._ns].classList;
+    const ns = this.ns, el = this[ns];
+    return el.classList;
   }
 
   /**
-   * Checks passed object is an ensemble.Compo instance
+   * Checks passed object is an ensemble Compo instance
    *
    * @static
    * @returns {boolean}
@@ -295,9 +305,9 @@ class Compo extends _composition {
   }
 
   /**
-   * Getter for Symbol property, returns the symbolic name for ensemble.Compo class
+   * Getter for Symbol property, returns the symbolic name for ensemble Compo class
    *
-   * @see Symbol.toStringTag()
+   * @see Symbol.toStringTag
    *
    * @override
    * @returns {string}

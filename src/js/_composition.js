@@ -15,9 +15,8 @@ const DENIED_PROPS = /attributes|classList|innerHTML|outerHTML|nodeName|nodeType
 
 
 /**
- * Base class for ensemble.Compo and ensemble.Snap composition elements.
+ * Abstract for ensemble Compo and ensemble Snap
  *
- * @class
  * @abstract
  */
 class _composition {
@@ -33,94 +32,97 @@ class _composition {
   /**
    * Bounds the composition to an element
    *
-   * @see Node.appendChild()
+   * @see Node.appendChild
    *
    * @param {Element} root A valid Element node
-   * @param {function} cb A function callback
+   * @param {function} cb Callback function
    * @returns {boolean}
    */
   bound(root, cb) {
-    typeof cb == 'function' && cb.call(this, this[this._ns]);
-    return !! root.appendChild(this[this._ns]);
+    const ns = this.ns, el = this[ns];
+    typeof cb == 'function' && cb.call(this, el);
+    return !! root.appendChild(el);
   }
 
   /**
    * Unbounds the composition from an element
    *
-   * @see Node.removeChild()
+   * @see Node.removeChild
    *
    * @param {Element} root A valid Element node
-   * @param {function} cb A function callback
+   * @param {function} cb Callback function
    * @returns {boolean}
    */
   unbound(root, cb) {
-    typeof cb == 'function' && cb.call(this, this[this._ns]);
-    return !! root.removeChild(this[this._ns]);
+    const ns = this.ns, el = this[ns];
+    typeof cb == 'function' && cb.call(this, el);
+    return !! root.removeChild(el);
   }
 
   /**
-   * Bounds the composition replacing a placeholder element
+   * Replaces a placeholder element with compo and bounds the composition
    *
-   * @see Node.replaceWith()
+   * @see Node.replaceWith
    *
    * @param {Element} node A valid Element node used as placeholder
-   * @param {function} cb A function callback
+   * @param {function} cb Callback function
    * @returns {boolean}
    * @todo backward compatibility
    */
   overlap(node, cb) {
-    typeof cb == 'function' && cb.call(this, this[this._ns]);
-    return !! node.replaceWith(this[this._ns]);
+    const ns = this.ns, el = this[ns];
+    typeof cb == 'function' && cb.call(this, el);
+    return !! node.replaceWith(el);
   }
 
   /**
-   * Appends a compo inside this composition
+   * Appends a compo to this composition
    *
-   * @see Node.appendChild()
+   * @see Node.appendChild
    *
-   * @param {ensemble.Compo} compo An ensemble.Compo composition
+   * @param {Compo} compo An ensemble Compo composition
    * @returns {boolean}
    */
   append(compo) {
-    const _ns = this._ns;
-    return !! this[_ns].appendChild(compo[_ns]);
+    const ns = this.ns, el = this[ns];
+    return !! el.appendChild(compo[ns]);
   }
 
   /**
-   * Prepends a compo inside this composition
+   * Prepends a compo to this composition
    *
-   * @see Node.prependChild()
+   * @see Node.prependChild
    *
-   * @param {ensemble.Compo} compo An ensemble.Compo composition
+   * @param {Compo} compo An ensemble Compo composition
    * @returns {boolean}
    */
   prepend(compo) {
-    const _ns = this._ns;
-    return !! this[_ns].prependChild(compo[_ns]);
+    const ns = this.ns, el = this[ns];
+    return !! el.prependChild(compo[ns]);
   }
 
   /**
    * Removes a compo from this composition
    *
-   * @see Node.removeChild()
+   * @see Node.removeChild
    *
-   * @param {ensemble.Compo} compo An ensemble.Compo composition
+   * @param {Compo} compo An ensemble Compo composition
    * @returns {boolean}
    */
   remove(compo) {
-    const _ns = this._ns;
-    return !! this[_ns].removeChild(compo[_ns]);
+    const ns = this.ns, el = this[ns];
+    return !! el.removeChild(compo[ns]);
   }
 
   /**
-   * Fill this composition with an element node
+   * Fills the composition inner with an element node
    *
    * Note: Any inner element contained will be removed.
    *
-   * @see Node.appendChild()
+   * @see Node.appendChild
    *
-   * @constant {RegExp} REJECTED_TAG_NAMES A regular expression for rejected tag names
-   * @constant {RegExp} REJECTED_TAGS A regular expression for rejected tag
+   * @constant {RegExp} REJECTED_TAG_NAMES Regular expression for rejected tag names
+   * @constant {RegExp} REJECTED_TAGS Regular expression for rejected tag
    * @param {Element} node A valid Element node
    * @returns {boolean}
    */
@@ -129,13 +131,14 @@ class _composition {
       throw new Error('Object cannot be resolved into a valid node.');
     }
 
+    const ns = this.ns, el = this[ns];
     this.empty();
 
-    return !! this[this._ns].appendChild(node);
+    return !! el.appendChild(node);
   }
 
   /**
-   * Empty this composition
+   * Emptys this composition
    *
    * Note: Any inner element contained will be removed.
    */
@@ -146,35 +149,36 @@ class _composition {
   }
 
   /**
-   * Getter for children property, intended as children compo of this composition
+   * Getter for children property, the children compo of this composition
    *
    * @var {getter}
    * @returns {array}
    */
   get children() {
-    return Array.prototype.map.call(this[this._ns].children, (node) => { return node.__compo; });
+    const ns = this.ns, el = this[ns];
+    return Array.prototype.map.call(el.children, (node) => { return node.__compo; });
   }
 
   /**
-   * Getter for first property, intended as the first compo contained inside of this composition
+   * Getter for first property, the first compo in this composition
    *
    * @var {getter}
-   * @returns {ensemble.Compo}
+   * @returns {Compo}
    */
   get first() {
-    const _ns = this._ns;
-    return this[_ns].firstElementChild ? this[_ns].firstElementChild.__compo : null;
+    const ns = this.ns, el = this[ns];
+    return el.firstElementChild ? el.firstElementChild.__compo : null;
   }
 
   /**
-   * Getter for last property, intended as the last compo contained inside of this composition
+   * Getter for last property, the last compo in this composition
    *
    * @var {getter}
-   * @returns {ensemble.Compo}
+   * @returns {Compo}
    */
   get last() {
-    const _ns = this._ns;
-    return this[_ns].lastElementChild ? this[_ns].lastElementChild.__compo : null;
+    const ns = this.ns, el = this[ns];
+    return el.lastElementChild ? el.lastElementChild.__compo : null;
   }
 
 }

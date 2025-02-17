@@ -21,23 +21,23 @@ import Compo from './Compo.js';
 /**
  * Event is an event manager
  * 
- * It is a wrap around the native Event [DOM]
+ * It is a wrap around Event [DOM]
  *
  * @class
  * @example
- * new ensemble.Event('component-namespace', 'mousewheel', node).add(func, {capture: true});
+ * new ensemble.Event('component-namespace', 'mousewheel', node).add(callback, {capture: true});
  */
 class Event {
 
   /**
    * Constructor method
    *
-   * @see Element.addEventListener()
-   * @see Element.removeElementListener()
+   * @see Element.addEventListener
+   * @see Element.removeElementListener
    *
    * @constructs
    * @param {string} ns Event namespace
-   * @param {string} name The Event type name [DOM]
+   * @param {string} name Event type name
    * @param {Element} node A valid Element node or component
    */
   constructor(ns, name, node) {
@@ -45,39 +45,41 @@ class Event {
       throw 'Bad invocation. Must be called with `new`.';
     }
 
-    const _ns = this._ns = '_' + ns;
+    const ns0 = this.ns = '_' + ns;
 
     node = (Compo.isCompo(node) ? node.node : node) || document;
 
     this.__Event = true;
-    this[_ns] = { name, node };
+    this[ns0] = {name, node};
   }
 
   /**
    * Adds an event for this composition
    *
-   * @see Element.addEventListener()
+   * @see Element.addEventListener
    *
    * @param {function} handle The function handler
    * @param {mixed} options An options Object or useCapture boolean
    */
   add(handle, options = false) {
-    this[this._ns].node.addEventListener(this[this._ns].name, handle, options);
+    const ns = this.ns, e = this[ns], node = e.node, name = e.name;
+    node.addEventListener(name, handle, options);
   }
 
   /**
    * Removes an event from this composition
    *
-   * @see Element.removeElementListener()
+   * @see Element.removeElementListener
    *
    * @param {function} handle The function handler
    */
   remove(handle) {
-    this[this._ns].node.removeEventListener(this[this._ns].name, handle);
+    const ns = this.ns, e = this[ns], node = e.node, name = e.name;
+    node.removeEventListener(name, handle);
   }
 
   /**
-   * Checks passed object is an ensemble.Event instance
+   * Checks passed object is an ensemble Event instance
    *
    * @static
    * @returns {boolean}
@@ -88,7 +90,7 @@ class Event {
   }
 
   /**
-   * Getter for Symbol property, returns the symbolic name for ensemble.Event class
+   * Getter for Symbol property, returns the symbolic name for ensemble Event class
    *
    * @see Symbol.toStringTag
    *

@@ -19,14 +19,15 @@ import _composition from './_composition.js';
 
 
 /**
- * Snap is an empty skeleton composition with shorthands method and utils
+ * Snap is a skeleton composition with shorthand methods and utils
  * 
- * It is a wrap around a DocumentFragment [DOM]
+ * It is a wrap around DocumentFragment [DOM]
  * It could be used as base for abstraction of a custom component element.
  *
  * @class
  * @extends _composition
  * @inheritdoc
+ * @param {string} ns Component namespace
  * @example
  * new ensemble.Snap('component-namespace');
  */
@@ -36,7 +37,6 @@ class Snap extends _composition {
    * Constructor method
    *
    * @constructs
-   * @param {string} ns Component namespace
    */
   constructor(ns) {
     if (! new.target) {
@@ -45,12 +45,12 @@ class Snap extends _composition {
 
     super();
 
-    const _ns = this._ns = '_' + ns;
+    const ns0 = this.ns = '_' + ns;
 
-    const node = this[_ns] = this._element(ns);
+    this[ns0] = this._element(ns);
 
     this.__Snap = true;
-    this[_ns].__snap = this;
+    this[ns0].__snap = this;
 
     this._render();
   }
@@ -58,7 +58,7 @@ class Snap extends _composition {
   /**
    * Element wrapper
    *
-   * @see document.createDocumentFragment()
+   * @see document.createDocumentFragment
    *
    * @param {string} ns Component namespace
    */
@@ -78,7 +78,7 @@ class Snap extends _composition {
   }
 
   /**
-   * Getter for Symbol property, returns the symbolic name for ensemble.Snap class
+   * Getter for Symbol property, returns the symbolic name for ensemble Snap class
    *
    * @see Symbol.toStringTag
    *

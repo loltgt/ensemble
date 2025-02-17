@@ -21,8 +21,8 @@ import Compo from './Compo.js';
 /**
  * Data is a multi-purpose utility object
  * 
- * It could be used as a wrap around a Compo composition, 
- * this object can store any kind of properties. 
+ * It could be used to wrap around a Compo composition, 
+ * this object can store anykind of properties. 
  *
  * @class
  * @example
@@ -46,35 +46,35 @@ class Data {
       Object.assign(this, {}, obj);
     }
 
-    const _ns = this._ns = '_' + ns;
+    const ns0 = this.ns = '_' + ns;
 
     this.__Data = true;
-    this[_ns] = { ns };
+    this[ns0] = {ns};
   }
 
   /**
    * The compo method is a utility to render elements
    * 
    * When you create a composition with this method, it will create a Compo composition or an Object placeholder.
-   * With the defer render you can render it in place.
+   * With the defer render you can render it in-place.
    *
    * @param {string} tag Element node tag or component name
    * @param {string} name
    * @param {object} props Properties for Element node or component
-   * @param {boolean} defer Defer render for composition
-   * @param {mixed} fresh A function callback, called on load compo
-   * @param {mixed} stale A function callback, called on unload compo
-   * @returns {mixed} compo An ensemble.Compo element or an Object placeholder 
+   * @param {boolean} defer Defer the composition render
+   * @param {mixed} fresh Callback function, on load compo
+   * @param {mixed} stale Callback function, on unload compo
+   * @returns {mixed} compo An ensemble Compo element or an Object placeholder 
    */
   compo(tag, name, props, defer = false, fresh = false, stale = false) {
-    const ns = this[this._ns].ns;
+    const ns = this.ns, ns1 = this[ns].ns;
 
     let compo;
 
     if (defer) {
-      compo = {ns, tag, name, props, fresh, stale};
+      compo = {ns1, tag, name, props, fresh, stale};
     } else {
-      compo = new Compo(ns, tag, name, props);
+      compo = new Compo(ns1, tag, name, props);
     }
     if (fresh && typeof fresh == 'function') {
       compo.fresh = props.onfresh = fresh;
@@ -87,20 +87,20 @@ class Data {
   }
 
   /**
-   * Renderizes a composition, passed by reference
+   * Renders a composition, passed by reference
    *
    * @async
    * @param {mixed} slot Reference of the element to render
    */
   async render(slot) {
-    const _ns = this._ns;
+    const ns = this.ns, el = this[ns], self = this;
 
-    if (this[_ns][slot] && this[_ns][slot].rendered) {
-      this[_ns][slot].fresh();
+    if (el[slot] && el[slot].rendered) {
+      el[slot].fresh();
     } else {
-      this[_ns][slot] = {rendered: true, fresh: this[slot].fresh, stale: this[slot].stale, params: this[slot]};
-      this[slot] = new Compo(this[slot].ns, this[slot].tag, this[slot].name, this[slot].props);
-      this[_ns][slot].fresh();
+      el[slot] = {rendered: true, fresh: self[slot].fresh, stale: self[slot].stale, params: self[slot]};
+      self[slot] = new Compo(self[slot].ns, self[slot].tag, self[slot].name, self[slot].props);
+      el.fresh();
     }
   }
 
@@ -111,32 +111,32 @@ class Data {
    * @param {mixed} slot Reference of the element to render
    */
   async stale(slot) {
-    const _ns = this._ns;
+    const ns = this.ns, el = this[ns];
 
-    if (this[_ns][slot] && this[_ns][slot].rendered) {
-      this[_ns][slot].stale();
+    if (el[slot] && el[slot].rendered) {
+      el[slot].stale();
     }
   }
 
   /**
-   * Refresh a composition, passed by reference
+   * Reflows a composition, passed by reference
    *
    * @async
    * @param {mixed} slot Reference of the element to render
-   * @param {boolean} force It forces reflow
+   * @param {boolean} force Force reflow
    */
   async reflow(slot, force) {
-    const _ns = this._ns;
+    const ns = this.ns, el = this[ns];
 
     if (force) {
-      this[_ns][slot] = this.compo(this[_ns][slot].params.ns, this[_ns][slot].params.name, this[_ns][slot].params.props);
-    } else if (this[_ns][slot] && this[_ns][slot].rendered) {
-      this[_ns][slot].fresh();
+      el[slot] = this.compo(el[slot].params.ns, el[slot].params.name, el[slot].params.props);
+    } else if (el[slot] && el[slot].rendered) {
+      el[slot].fresh();
     }
   }
 
   /**
-   * Checks passed object is an ensemble.Data instance
+   * Checks passed object is an ensemble Data instance
    *
    * @static
    * @returns {boolean}
@@ -147,7 +147,7 @@ class Data {
   }
 
   /**
-   * Getter for Symbol property, returns the symbolic name for ensemble.Data class
+   * Getter for Symbol property, returns the symbolic name for ensemble Data class
    *
    * @see Symbol.toStringTag
    *

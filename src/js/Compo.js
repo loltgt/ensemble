@@ -61,13 +61,13 @@ class Compo extends _composition {
     super();
 
     const ns0 = this.ns = '_' + ns;
-    const nodeName = tag ? tag.toString() : 'div';
+    const tagName = tag ? tag.toString() : 'div';
 
-    if (REJECTED_TAG_NAMES.test(nodeName)) {
-      throw new Error('Provided node name is not a valid name.');
+    if (REJECTED_TAG_NAMES.test(tagName)) {
+      throw new Error('Provided tag name is not a valid name.');
     }
 
-    const el = this[ns0] = this._element(ns, nodeName, name, props, options, elementNS);
+    const el = this[ns0] = this._element(ns, tagName, name, props, options, elementNS);
 
     this.__Compo = true;
     this[ns0].__compo = this;

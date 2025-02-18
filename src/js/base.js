@@ -32,14 +32,14 @@ class base {
    * @virtual
    * @returns {object}
    */
-  _defaults() { return {}; }
+  // _defaults() { return {}; }
 
   /**
    * Methods binding
    *
    * @virtual
    */
-  _bindings() {}
+  // _bindings() {}
 
   /**
    * Constructor method

@@ -67,14 +67,15 @@ class Data {
    * @returns {mixed} compo An ensemble Compo element or an Object placeholder 
    */
   compo(tag, name, props, defer = false, fresh = false, stale = false) {
-    const ns = this.ns, ns1 = this[ns].ns;
+    // ns circular
+    const ns1 = this.ns, ns = this[ns1].ns;
 
     let compo;
 
     if (defer) {
-      compo = {ns1, tag, name, props, fresh, stale};
+      compo = {ns, tag, name, props, fresh, stale};
     } else {
-      compo = new Compo(ns1, tag, name, props);
+      compo = new Compo(ns, tag, name, props);
     }
     if (fresh && typeof fresh == 'function') {
       compo.fresh = props.onfresh = fresh;
@@ -100,7 +101,7 @@ class Data {
     } else {
       el[slot] = {rendered: true, fresh: self[slot].fresh, stale: self[slot].stale, params: self[slot]};
       self[slot] = new Compo(self[slot].ns, self[slot].tag, self[slot].name, self[slot].props);
-      el.fresh();
+      el[slot].fresh();
     }
   }
 

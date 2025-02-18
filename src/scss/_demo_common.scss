@@ -24,15 +24,34 @@ p {
 h1, h2, h3, h4, h5, h6 {
   display: block;
   padding: 0;
+  font-weight: 700;
 }
 h1 {
   margin: 0 0 2rem;
-  font-size: 2rem;
+  font-size: 2em;
 }
-h2 {
+h2, h3 {
+  margin: 3rem 0 1rem;
+  font-size: 1.17em;
+
+  em,
+  code {
+    padding: 0 .1rem;
+    font-weight: normal;
+    font-style: normal;
+  }
+  em {
+    font-weight: 600;
+  }
+  code {
+    font-size: 1rem;
+    letter-spacing: -.05rem;
+  }
+}
+section > h2 {
   display: flex;
   margin: 0 0 2.5rem;
-  font-size: 1.5rem;
+  font-size: 1.5em;
 
   &:before {
     content: "class";
@@ -41,19 +60,13 @@ h2 {
     margin-inline-start: 0;
     padding: .2rem;
     font-size: .7rem;
-    font-style: italic;
     font-weight: 500;
     line-height: 1;
+    letter-spacing: -.02rem;
     color: #fafeff;
     background: #000;
     border-radius: .1rem;
-  }
-}
-h3 {
-  margin: 3rem 0 1rem;
-
-  span {
-    font-weight: normal;
+    opacity: .6;
   }
 }
 
@@ -67,5 +80,5 @@ main {
 section,
 article {
   display: block;
-  margin: 5rem 0;
+  margin: 3rem 0 5rem;
 }

@@ -38,10 +38,6 @@ class Data {
    * @param {object} obj A starter Object
    */
   constructor(ns, obj) {
-    if (! new.target) {
-      throw l10n.EBADH;
-    }
-
     if (obj && typeof obj == 'object') {
       Object.assign(this, {}, obj);
     }

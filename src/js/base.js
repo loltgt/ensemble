@@ -56,6 +56,9 @@ class base {
     if (args.length > 1) {
       element = args[0];
       options = args[1];
+    //TODO nodeType
+    } else if ('nodeType' in args[0] && !! args[0].nodeType) {
+      element = args[0];
     } else {
       options = args[0];
     }
@@ -84,7 +87,7 @@ class base {
    * @param {object} options An options Object to extend defaults
    * @returns {object}
    */
-  opts(defaults, options) {
+  opts(defaults, options = {}) {
     const opts = {};
 
     for (const key in defaults) {
@@ -160,7 +163,7 @@ class base {
    *
    * @param {string} query Text query
    * @param {Element} node An Element node where find
-   * @param {boolean} all Find single or multiple elements
+   * @param {boolean} all Find multiple elements
    * @return {mixed} Element or ElementCollection
    */
   selector(query, node, all = false) {

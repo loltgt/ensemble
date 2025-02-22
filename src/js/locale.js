@@ -26,7 +26,6 @@ const l10n_funcs = {
 
 // en [default]
 const l10n_en = {
-  EBADH: 'Bad invocation. Must be called with `new`.',
   ETAGN: l10n_funcs.EARGN('tag'),
   EPROP: 'Provided property name is not a valid name.',
   EMTAG: 'Object cannot be resolved into a valid node.',
@@ -65,7 +64,7 @@ class locale {
    * @returns {object} Translation markers
    */
   static defaults() {
-    return Object.fromEntries(['EBADH', 'ETAGN', 'EPROP', 'EMTAG', 'EOPTS', 'EELEM', 'EMETH', 'DOM'].map(a => [a, a]));
+    return Object.fromEntries(['ETAGN', 'EPROP', 'EMTAG', 'EOPTS', 'EELEM', 'EMETH', 'DOM'].map(a => [a, a]));
   }
 };
 

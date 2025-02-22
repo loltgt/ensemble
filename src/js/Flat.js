@@ -38,10 +38,6 @@ class Flat extends part {
    * @constructs
    */
   constructor(ns) {
-    if (! new.target) {
-      throw l10n.EBADINVK;
-    }
-
     super();
 
     const ns0 = this.ns = '_' + ns;

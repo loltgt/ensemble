@@ -41,10 +41,6 @@ class Event {
    * @param {Element} node A valid Element node or compo
    */
   constructor(ns, name, node) {
-    if (! new.target) {
-      throw l10n.EBADH;
-    }
-
     const ns0 = this.ns = '_' + ns;
 
     node = (Compo.isCompo(node) ? node[ns] : node) || document;

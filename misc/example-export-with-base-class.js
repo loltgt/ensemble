@@ -1,5 +1,7 @@
 // example
-// export ensemble along with your base class
+//
+// Export ensemble along with your base class
+//
 
 import Compo from './src/js/Compo.js';
 import Flat from './src/js/Flat.js';
@@ -8,3 +10,4 @@ import Event from './src/js/Event.js';
 import yourBaseClass from './yourBaseClass.js';
 
 export { Compo, Flat, Data, Event, yourBaseClass };
+

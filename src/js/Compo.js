@@ -40,9 +40,9 @@ class Compo extends part {
    * Constructor method
    *
    * @constructs
-   * @constant {RegExp} REJECTED_TAG_NAMES Regular expression for rejected tag names
-   * @constant {RegExp} REJECTED_TAGS Regular expression for rejected tag
-   * @constant {RegExp} DENIED_PROPS Regular expression for denied properties
+   * @constant {RegExp} REJECTED_TAG_NAMES Regular expression for rejected tag names
+   * @constant {RegExp} REJECTED_TAGS Regular expression for rejected tag
+   * @constant {RegExp} DENIED_PROPS Regular expression for denied properties
    * @param {string} ns Compo namespace
    * @param {string} [tag='div'] The Element node name or compo name
    * @param {string[]} [name] The compo name, used for CSS className
@@ -53,10 +53,6 @@ class Compo extends part {
    * @param {string} [elementNS.qualifiedName] A valid qualified name
    */
   constructor(ns, tag, name, props, options, elementNS) {
-    if (! new.target) {
-      throw l10n.EBADH;
-    }
-
     super();
 
     const ns0 = this.ns = '_' + ns;
@@ -105,7 +101,7 @@ class Compo extends part {
       if (typeof name == 'string') {
         el.className = ns + '-' + name;
       } else if (typeof name == 'object') {
-        el.className = Object.values(name).map((a) => (ns + '-' + a)).join(' ');
+        el.className = Object.values(name).map(a => (ns + '-' + a)).join(' ');
       }
 
       if (nodeClass) {

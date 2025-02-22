@@ -17,6 +17,7 @@
 import Compo from './Compo.js';
 import Data from './Data.js';
 import Event from './Event.js';
+import { l10n } from './locale.js';
 
 
 /**
@@ -32,14 +33,14 @@ class base {
    * @virtual
    * @returns {object}
    */
-  // _defaults() { return {}; }
+  // defaults() { return {}; }
 
   /**
    * Methods binding
    *
    * @virtual
    */
-  // _bindings() {}
+  // binds() {}
 
   /**
    * Constructor method
@@ -49,25 +50,26 @@ class base {
    * @param {object} options Options object
    */
   constructor() {
+    const args = arguments;
     let element, options;
 
-    if (arguments.length > 1) {
-      element = arguments[0];
-      options = arguments[1];
+    if (args.length > 1) {
+      element = args[0];
+      options = args[1];
     } else {
-      options = arguments[0];
+      options = args[0];
     }
 
     if (options && typeof options != 'object') {
-      throw new TypeError('Passed argument "options" is not an Object.');
+      throw new TypeError(l10n.EOPTS);
     }
     if (element && typeof element != 'object') {
-      throw new TypeError('Passed argument "element" is not an Object.');
+      throw new TypeError(l10n.EELEM);
     }
 
-    this._bindings();
+    this.binds();
 
-    this.options = this.defaults(this._defaults(), options);
+    this.options = this.opts(this.defaults(), options);
     Object.freeze(this.options);
 
     this.element = element;
@@ -82,7 +84,7 @@ class base {
    * @param {object} options An options Object to extend defaults
    * @returns {object}
    */
-  defaults(defaults, options) {
+  opts(defaults, options) {
     const opts = {};
 
     for (const key in defaults) {
@@ -102,12 +104,12 @@ class base {
    * When passed the first argument, makes a new Compo instance 
    * otherwise returns a reference to the Compo class.
    *
-   * @param {string} [tag='div'] The Element node name or component name, empty for ensemble Compo class reference
-   * @param {mixed} [name] The composition name, used for CSS className
-   * @returns {mixed} Instance of ensemble Data or ensemble Data class reference
+   * @param {string} [tag='div'] The Element node name or compo name, empty for Compo class reference
+   * @param {mixed} [name] The compo name, used for CSS className
+   * @returns {mixed} Instance of Compo or Compo class reference
    */
   compo(tag, name, props) {
-    const options = this.options, ns = options.ns;
+    const ns = this.options.ns;
     return tag != undefined ? new Compo(ns, tag, name, props) : Compo;
   }
 
@@ -117,11 +119,11 @@ class base {
    * When passed the first argument, makes a new Data instance 
    * otherwise returns a reference to the Data class.
    *
-   * @param {object} obj A starter Object, empty for ensemble Data class reference
-   * @returns {mixed} Instance of ensemble Data or ensemble Data class reference
+   * @param {object} obj A starter Object, empty for Data class reference
+   * @returns {mixed} Instance of Data or Data class reference
    */
   data(obj) {
-    const options = this.options, ns = options.ns;
+    const ns = this.options.ns;
     return obj != undefined ? new Data(ns, obj) : Data;
   }
 
@@ -131,11 +133,12 @@ class base {
    * When the passed first argument is a string makes a new Event instance 
    * otherwise it returns a reference to the Event class.
    * 
-   * Passing an Event as the first argument, 
-   * element preventDefault and blur will be performed.
+   * Passing an Event instance as the first argument, 
+   * event preventDefault() and blur() will be performed.
    *
-   * @param {object} obj A starter Object, empty for ensemble Event class reference
-   * @returns {mixed}
+   * @param {string|Event} event A valid Event name or Event instance
+   * @param {Element} node An Element node
+   * @returns {mixed} Instance of Event or Event class reference
    */
   event(event, node) {
     if (typeof event == 'string') {
@@ -274,11 +277,11 @@ class base {
    *
    * @see window.getComputedStyle
    *
-   * @param {mixed} node An Element node or an ensemble Compo composition
+   * @param {mixed} node An Element node or a compo
    * @param {string} prop A style property
    * @returns {int} time Delay time in milliseconds
    */
-  getTime(node, prop = 'transitionDuration') {
+  styleTime(node, prop) {
     let time = Compo.isCompo(node) ? node.getStyle(prop) : window.getComputedStyle(node)[prop];
 
     if (time) {
@@ -293,10 +296,13 @@ class base {
    *
    * @param {function} method A method from the current instance
    * @returns {function}
-   * @todo untrusted method
    */
-  binds(method) {
+  wrap(method) {
     const self = this;
+
+    if (this[method] && typeof method != 'function') {
+      throw new TypeError(l10n.EMETH);
+    }
 
     return function(event) { method.call(self, event, this); }
   }
@@ -307,11 +313,11 @@ class base {
    * @see window.setTimeout
    *
    * @param {function} func A callback function
-   * @param {mixed} node An Element node or an ensemble Compo composition
+   * @param {mixed} node An Element node or a compo
    * @param {int} time Default delay time in milliseconds
    */
   delay(func, node, time) {
-    const delay = node ? this.getTime(node) : 0;
+    const delay = node ? this.styleTime(node, 'transitionDuration') : 0;
 
     setTimeout(func, delay || time);
   }

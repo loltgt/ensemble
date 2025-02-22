@@ -14,28 +14,27 @@
  * @exports Compo
  */
 
-import _Symbol from './_Symbol.js';
-import _composition from './_composition.js';
+import part from './part.js';
+import { l10n } from './locale.js';
 
 
-const REJECTED_TAG_NAMES = /html|head|body|meta|link|style|script/i;
-const REJECTED_TAGS = /(<(html|head|body|meta|link|style|script)*>)/i;
-const DENIED_PROPS = /attributes|classList|innerHTML|outerHTML|nodeName|nodeType/;
+const REJECTED_TAGS = 'html|head|body|meta|link|style|script';
+const DENIED_PROPS ='attributes|classList|innerHTML|outerHTML|nodeName|nodeType';
 
 
 /**
  * Compo is a composition element with shorthand methods and utils
  * 
  * It is a wrap around Element node [DOM]
- * It could be used as base for abstraction of a custom component element.
+ * It could be used as abstraction for a component.
  *
  * @class
- * @extends _composition
+ * @extends part
  * @inheritdoc
  * @example
  * new ensemble.Compo('compo-namespace', 'div', 'compo-name', {id: 'compo-id', tabIndex: 1});
  */
-class Compo extends _composition {
+class Compo extends part {
 
   /**
    * Constructor method
@@ -44,10 +43,10 @@ class Compo extends _composition {
    * @constant {RegExp} REJECTED_TAG_NAMES Regular expression for rejected tag names
    * @constant {RegExp} REJECTED_TAGS Regular expression for rejected tag
    * @constant {RegExp} DENIED_PROPS Regular expression for denied properties
-   * @param {string} ns Component namespace
-   * @param {string} [tag='div'] The Element node name or component name
-   * @param {string[]} [name] The composition name, used for CSS className
-   * @param {object} [props] Properties for composition
+   * @param {string} ns Compo namespace
+   * @param {string} [tag='div'] The Element node name or compo name
+   * @param {string[]} [name] The compo name, used for CSS className
+   * @param {object} [props] Properties for compo
    * @param {object} [options] An optional ElementCreationOptions object
    * @param {object} [elementNS] Options for namespaced Element node
    * @param {string} [elementNS.namespaceURI] A valid namespace URI
@@ -55,7 +54,7 @@ class Compo extends _composition {
    */
   constructor(ns, tag, name, props, options, elementNS) {
     if (! new.target) {
-      throw 'Bad invocation. Must be called with `new`.';
+      throw l10n.EBADH;
     }
 
     super();
@@ -63,21 +62,21 @@ class Compo extends _composition {
     const ns0 = this.ns = '_' + ns;
     const tagName = tag ? tag.toString() : 'div';
 
-    if (REJECTED_TAG_NAMES.test(tagName)) {
-      throw new Error('Provided tag name is not a valid name.');
+    if (RegExp(REJECTED_TAGS, 'i').test(tagName)) {
+      throw new Error(l10n.ETAGN);
     }
 
-    const el = this[ns0] = this._element(ns, tagName, name, props, options, elementNS);
+    const el = this[ns0] = this.element(ns, tagName, name, props, options, elementNS);
 
     this.__Compo = true;
-    this[ns0].__compo = this;
+    this[ns0]._1 = this;
 
     if (props && typeof props == 'object') {
       for (const prop in props) {
         const p = prop.toString();
 
-        if (DENIED_PROPS.test(p)) {
-          throw new Error('Provided property name is not a valid name.');
+        if (RegExp(DENIED_PROPS).test(p)) {
+          throw new Error(l10n.EPROP);
         }
         //TODO dataset
         if (p.indexOf('on') === 0 && props[p] && typeof props[p] == 'function') {
@@ -106,7 +105,7 @@ class Compo extends _composition {
       if (typeof name == 'string') {
         el.className = ns + '-' + name;
       } else if (typeof name == 'object') {
-        el.className = name.map((a) => (ns + '-' + a)).join(' ');
+        el.className = Object.values(name).map((a) => (ns + '-' + a)).join(' ');
       }
 
       if (nodeClass) {
@@ -114,31 +113,31 @@ class Compo extends _composition {
       }
     }
 
-    this._render();
+    this.render();
   }
 
   /**
-   * Element wrapper
+   * Object wrapper
    *
    * @see document.createElement
    * @see document.createElementNS
    *
-   * @param {string} ns Component namespace
-   * @param {string} tag The Element node name or component name
-   * @param {string} name Name for composition, used for CSS className
-   * @param {object} props Properties for composition
+   * @param {string} ns Compo namespace
+   * @param {string} tag The Element node name or compo name
+   * @param {string} name Name for compo, used for CSS className
+   * @param {object} props Properties for compo
    * @param {object} [options] An optional ElementCreationOptions object
    * @param {object} [elementNS] Options for namespaced Element node
    * @param {string} [elementNS.namespaceURI] A valid namespace URI
    * @param {string} [elementNS.qualifiedName] A valid qualified name
    */
-  _element(ns, tag, name, props, options, elementNS) {
+  element(ns, tag, name, props, options, elementNS) {
     if (elementNS) return document.createElementNS(tag, [...elementNS, ...options]);
     else return document.createElement(tag, options);
   }
 
   /**
-   * Checks for an attribute of this composition
+   * Checks for an attribute of this compo
    *
    * @see Element.hasAttribute
    *
@@ -146,12 +145,11 @@ class Compo extends _composition {
    * @returns {boolean}
    */
   hasAttr(attr) {
-    const ns = this.ns, el = this[ns];
-    return el.hasAttribute(attr);
+    return this[this.ns].hasAttribute(attr);
   }
 
   /**
-   * Gets an attribute from this composition
+   * Gets an attribute from this compo
    *
    * @see Element.getAttribute
    *
@@ -159,12 +157,11 @@ class Compo extends _composition {
    * @returns {string}
    */
   getAttr(attr) {
-    const ns = this.ns, el = this[ns];
-    return el.getAttribute(attr);
+    return this[this.ns].getAttribute(attr);
   }
 
   /**
-   * Sets an attribute in this composition
+   * Sets an attribute in this compo
    *
    * @see Element.setAttribute
    *
@@ -172,20 +169,18 @@ class Compo extends _composition {
    * @param {string} value The value
    */
   setAttr(attr, value) {
-    const ns = this.ns, el = this[ns];
-    el.setAttribute(attr, value);
+    this[this.ns].setAttribute(attr, value);
   }
 
   /**
-   * Removes an attribute from this composition
+   * Removes an attribute from this compo
    *
    * @see Element.removeAttribute
    *
    * @param {string} attr An attribute
    */
   delAttr(attr) {
-    const ns = this.ns, el = this[ns];
-    el.removeAttribute(attr);
+    this[this.ns].removeAttribute(attr);
   }
 
   /**
@@ -197,44 +192,39 @@ class Compo extends _composition {
    * @returns {mixed}
    */
   getStyle(prop) {
-    const ns = this.ns, el = this[ns];
-    return window.getComputedStyle(el)[prop];
+    return window.getComputedStyle(this[this.ns])[prop];
   }
 
   /**
-   * Shows this composition
+   * Shows this compo
    */
   show() {
-    const ns = this.ns, el = this[ns];
-    el.hidden = false;
+    this[this.ns].hidden = false;
   }
 
   /**
-   * Hides this composition
+   * Hides this compo
    */
   hide() {
-    const ns = this.ns, el = this[ns];
-    el.hidden = true;
+    this[this.ns].hidden = true;
   }
 
   /**
    * Util to set attribute disabled to true
    */
   enable() {
-    const ns = this.ns, el = this[ns];
-    el.disabled = false;
+    this[this.ns].disabled = false;
   }
 
   /**
    * Util to set attribute disabled to false
    */
   disable() {
-    const ns = this.ns, el = this[ns];
-    el.disabled = true;
+    this[this.ns].disabled = true;
   }
 
   /**
-   * Getter for node property, the Element node in this composition
+   * Getter for node property, the Element node in this compo
    *
    * Note: Direct access to the node is discouraged.
    *
@@ -242,46 +232,46 @@ class Compo extends _composition {
    * @returns {Element}
    */
   get node() {
-    console.warn('Direct access to the node is discouraged.');
+    console.warn(l10n.DOM);
 
     return this[this.ns];
   }
 
   /**
-   * Getter for parent property, the parent compo of this composition
+   * Getter for parent property, the parent compo of this compo
    *
    * @var {getter}
    * @returns {Compo}
    */
   get parent() {
-    const ns = this.ns, el = this[ns];
-    return el.parentElement && '__compo' in el.parentElement ? el.parentElement.__compo : null;
+    const el = this[this.ns];
+    return el.parentElement && '_1' in el.parentElement ? el.parentElement._1 : null;
   }
 
   /**
-   * Getter for previous property, the previous sibling of this composition
+   * Getter for previous property, the previous sibling of this compo
    *
    * @var {getter}
    * @returns {Compo}
    */
   get previous() {
-    const ns = this.ns, el = this[ns];
-    return el.previousElementSibling ? el.previousElementSibling.__compo : null;
+    const el = this[this.ns];
+    return el.previousElementSibling ? el.previousElementSibling._1 : null;
   }
 
   /**
-   * Getter for next property, the next sibling of this composition
+   * Getter for next property, the next sibling of this compo
    *
    * @var {getter}
    * @returns {Compo}
    */
   get next() {
-    const ns = this.ns, el = this[ns];
-    return el.nextElementSibling ? el.nextElementSibling.__compo : null;
+    const el = this[this.ns];
+    return el.nextElementSibling ? el.nextElementSibling._1 : null;
   }
 
   /**
-   * Getter for classList property, the classList of the Element node in this composition
+   * Getter for classList property, the classList of the Element node in this compo
    *
    * @see DOMTokenList
    *
@@ -289,8 +279,7 @@ class Compo extends _composition {
    * @returns {DOMTokenList}
    */
   get classList() {
-    const ns = this.ns, el = this[ns];
-    return el.classList;
+    return this[this.ns].classList;
   }
 
   /**
@@ -300,20 +289,7 @@ class Compo extends _composition {
    * @returns {boolean}
    */
   static isCompo(obj) {
-    if (_Symbol) return _Symbol.for(obj) === _Symbol.for(Compo.prototype);
-    else return obj && typeof obj == 'object' && '__Compo' in obj;
-  }
-
-  /**
-   * Getter for Symbol property, returns the symbolic name for ensemble Compo class
-   *
-   * @see Symbol.toStringTag
-   *
-   * @override
-   * @returns {string}
-   */
-  get [_Symbol.toStringTag]() {
-    return 'ensemble.Compo';
+    return obj instanceof Compo;
   }
 
 }

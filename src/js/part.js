@@ -1,5 +1,5 @@
 /**
- * ensemble _composition
+ * ensemble part
  *
  * @version 0.0.4
  * @link https://github.com/loltgt/ensemble
@@ -9,28 +9,33 @@
 
 'use strict';
 
-const REJECTED_TAG_NAMES = /html|head|body|meta|link|style|script/i;
-const REJECTED_TAGS = /(<(html|head|body|meta|link|style|script)*>)/i;
-const DENIED_PROPS = /attributes|classList|innerHTML|outerHTML|nodeName|nodeType/;
+/**
+ * @exports part
+ */
+
+import { l10n } from './locale.js';
+
+
+const REJECTED_TAGS = 'html|head|body|meta|link|style|script';
 
 
 /**
- * Abstract for ensemble Compo and ensemble Snap
+ * Abstract for ensemble Compo and ensemble Flat
  *
  * @abstract
  */
-class _composition {
+class part {
 
   /**
    * Element render
    */
-  _render() {
-    delete this._element;
-    delete this._render;
+  render() {
+    delete this.element;
+    delete this.render;
   }
 
   /**
-   * Bounds the composition to an element
+   * Binds the compo to an element
    *
    * @see Node.appendChild
    *
@@ -38,14 +43,14 @@ class _composition {
    * @param {function} cb Callback function
    * @returns {boolean}
    */
-  bound(root, cb) {
-    const ns = this.ns, el = this[ns];
+  bind(root, cb) {
+    const el = this[this.ns];
     typeof cb == 'function' && cb.call(this, el);
     return !! root.appendChild(el);
   }
 
   /**
-   * Unbounds the composition from an element
+   * Unbinds the compo from an element
    *
    * @see Node.removeChild
    *
@@ -53,34 +58,33 @@ class _composition {
    * @param {function} cb Callback function
    * @returns {boolean}
    */
-  unbound(root, cb) {
-    const ns = this.ns, el = this[ns];
+  unbind(root, cb) {
+    const el = this[this.ns];
     typeof cb == 'function' && cb.call(this, el);
     return !! root.removeChild(el);
   }
 
   /**
-   * Replaces a placeholder element with compo and bounds the composition
+   * Replaces a placeholder element with compo and binds the compo
    *
    * @see Node.replaceWith
    *
    * @param {Element} node A valid Element node used as placeholder
    * @param {function} cb Callback function
    * @returns {boolean}
-   * @todo backward compatibility
    */
-  overlap(node, cb) {
-    const ns = this.ns, el = this[ns];
+  place(node, cb) {
+    const el = this[this.ns];
     typeof cb == 'function' && cb.call(this, el);
     return !! node.replaceWith(el);
   }
 
   /**
-   * Appends a compo to this composition
+   * Appends a compo to this compo
    *
    * @see Node.appendChild
    *
-   * @param {Compo} compo An ensemble Compo composition
+   * @param {part} compo A compo
    * @returns {boolean}
    */
   append(compo) {
@@ -89,11 +93,11 @@ class _composition {
   }
 
   /**
-   * Prepends a compo to this composition
+   * Prepends a compo to this compo
    *
    * @see Node.prependChild
    *
-   * @param {Compo} compo An ensemble Compo composition
+   * @param {part} compo A compo
    * @returns {boolean}
    */
   prepend(compo) {
@@ -106,7 +110,7 @@ class _composition {
    *
    * @see Node.removeChild
    *
-   * @param {Compo} compo An ensemble Compo composition
+   * @param {part} compo A compo
    * @returns {boolean}
    */
   remove(compo) {
@@ -115,7 +119,7 @@ class _composition {
   }
 
   /**
-   * Fills the composition inner with an element node
+   * Fills the compo inner with an element node
    *
    * Note: Any inner element contained will be removed.
    *
@@ -127,20 +131,19 @@ class _composition {
    * @returns {boolean}
    */
   fill(node) {
-    if (node instanceof Element == false || REJECTED_TAG_NAMES.test(node.tagName) || REJECTED_TAGS.test(node.innerHTML)) {
-      throw new Error('Object cannot be resolved into a valid node.');
+    if (! node instanceof Element || RegExp(REJECTED_TAGS, 'i').test(node.tagName) || RegExp(`(<(${REJECTED_TAGS})*>)`, 'i').test(node.innerHTML)) {
+      throw new Error(l10n.EMTAG);
     }
 
-    const ns = this.ns, el = this[ns];
     this.empty();
 
-    return !! el.appendChild(node);
+    return !! this[this.ns].appendChild(node);
   }
 
   /**
-   * Emptys this composition
+   * Emptys this compo
    *
-   * Note: Any inner element contained will be removed.
+   * Note: Any inner element will be removed.
    */
   empty() {
     while (this.first) {
@@ -149,38 +152,37 @@ class _composition {
   }
 
   /**
-   * Getter for children property, the children compo of this composition
+   * Getter for children property, the children compo of this compo
    *
    * @var {getter}
    * @returns {array}
    */
   get children() {
-    const ns = this.ns, el = this[ns];
-    return Array.prototype.map.call(el.children, (node) => { return node.__compo; });
+    return Array.prototype.map.call(this[this.ns].children, (node) => { return node._1; });
   }
 
   /**
-   * Getter for first property, the first compo in this composition
+   * Getter for first property, the first compo in this compo
    *
    * @var {getter}
-   * @returns {Compo}
+   * @returns {part}
    */
   get first() {
-    const ns = this.ns, el = this[ns];
-    return el.firstElementChild ? el.firstElementChild.__compo : null;
+    const el = this[this.ns];
+    return el.firstElementChild ? el.firstElementChild._1 : null;
   }
 
   /**
-   * Getter for last property, the last compo in this composition
+   * Getter for last property, the last compo in this compo
    *
    * @var {getter}
-   * @returns {Compo}
+   * @returns {part}
    */
   get last() {
-    const ns = this.ns, el = this[ns];
-    return el.lastElementChild ? el.lastElementChild.__compo : null;
+    const el = this[this.ns];
+    return el.lastElementChild ? el.lastElementChild._1 : null;
   }
 
 }
 
-export default _composition;
+export default part;

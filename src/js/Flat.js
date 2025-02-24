@@ -40,11 +40,11 @@ class Flat extends part {
   constructor(ns) {
     super();
 
-    const ns0 = this.ns = '_' + ns;
+    const ns0 = this.ns = `_${ns}`;
 
     this[ns0] = this.element(ns);
 
-    this.__Flat = true;
+    this.__Flat = 1;
     this[ns0]._1 = this;
 
     this.render();

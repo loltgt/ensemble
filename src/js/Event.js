@@ -41,11 +41,11 @@ class Event {
    * @param {Element} node A valid Element node or compo
    */
   constructor(ns, name, node) {
-    const ns0 = this.ns = '_' + ns;
+    const ns0 = this.ns = `_${ns}`;
 
     node = (Compo.isCompo(node) ? node[ns] : node) || document;
 
-    this.__Event = false;
+    this.__Event = 0;
     this[ns0] = {name, node};
   }
 

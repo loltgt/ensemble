@@ -12,14 +12,14 @@ import { Compo as $Compo, Flat as $Flat } from 'ensemble';
 
 class RCTree extends React.Component {
   appendChild(child) {
-    const { children } = this.state;
+    const {children} = this.state;
     children.concat(child);
 
     this.setState({children});
   }
 
   removeChild(child) {
-    const { children } = this.state;
+    const {children} = this.state;
     const i = this.state.children.indexOf(child);
     delete this.state.children[i];
 
@@ -27,7 +27,7 @@ class RCTree extends React.Component {
   }
 
   replaceChild(prevChild, nextChild) {
-    const { children } = this.state;
+    const {children} = this.state;
     const i = this.state.children.indexOf(prevChild);
     children[i] = nextChild;
 
@@ -76,7 +76,7 @@ class $Element extends RCTree {
   removeEvent(event, func) {
     if (typeof func != 'function') return;
 
-    const { state } = this;
+    const {state} = this;
 
     if (state[`on${event}`] && state[`on${event}`] === func)
       delete state[`on${event}`];
@@ -103,7 +103,7 @@ class $Element extends RCTree {
     if (/^on|style/.test(name))
       return;
 
-    const { state } = this;
+    const {state} = this;
 
     if (state[name])
       delete state[name];
@@ -116,7 +116,7 @@ class $Element extends RCTree {
   }
 
   setStyle(name, value) {
-    const { style } = this.state.style;
+    const {style} = this.state.style;
     style[name] = value.toString();
 
     this.setState({style});
@@ -127,7 +127,7 @@ class $Element extends RCTree {
   }
 
   #classList(className) {
-    const { setState } = this;
+    const {setState} = this;
 
     class classList {
       constructor(className) {

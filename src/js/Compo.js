@@ -48,14 +48,14 @@ class Compo extends part {
    * @param {string[]} [name] The compo name, used for CSS className
    * @param {object} [props] Properties for compo
    * @param {object} [options] An optional ElementCreationOptions object
-   * @param {object} [elementNS] Options for namespaced Element node
+   * @param {object} [elementNS] Options for namespace Element node
    * @param {string} [elementNS.namespaceURI] A valid namespace URI
    * @param {string} [elementNS.qualifiedName] A valid qualified name
    */
   constructor(ns, tag, name, props, options, elementNS) {
     super();
 
-    const ns0 = this.ns = '_' + ns;
+    const ns0 = this.ns = `_${ns}`;
     const tagName = tag ? tag.toString() : 'div';
 
     if (RegExp(REJECTED_TAGS, 'i').test(tagName)) {
@@ -64,7 +64,7 @@ class Compo extends part {
 
     const el = this[ns0] = this.element(ns, tagName, name, props, options, elementNS);
 
-    this.__Compo = true;
+    this.__Compo = 1;
     this[ns0]._1 = this;
 
     if (props && typeof props == 'object') {
@@ -74,7 +74,7 @@ class Compo extends part {
         if (RegExp(DENIED_PROPS).test(p)) {
           throw new Error(l10n.EPROP);
         }
-        //TODO dataset
+
         if (p.indexOf('on') === 0 && props[p] && typeof props[p] == 'function') {
           el[p] = props[p].bind(this);
         } else if (typeof props[p] != 'object') {
@@ -82,10 +82,7 @@ class Compo extends part {
         } else if (p == 'children') {
           if (typeof props[p] == 'object' && props[p].length) {
             for (const child of props.children) {
-              const tag = child.tag;
-              const name = child.name;
-              const props = child.props;
-
+              const {tag, name, props} = child;
               this.append(new Compo(ns, tag, name, props));
             }
           }
@@ -99,13 +96,13 @@ class Compo extends part {
       el.className = '';
 
       if (typeof name == 'string') {
-        el.className = ns + '-' + name;
+        el.className = `${ns}-${name}`;
       } else if (typeof name == 'object') {
-        el.className = Object.values(name).map(a => (ns + '-' + a)).join(' ');
+        el.className = Object.values(name).map(a => `${ns}-${a}`).join(' ');
       }
 
       if (nodeClass) {
-        el.className += ' ' + nodeClass;
+        el.className += ` ${nodeClass}`;
       }
     }
 
@@ -128,7 +125,7 @@ class Compo extends part {
    * @param {string} [elementNS.qualifiedName] A valid qualified name
    */
   element(ns, tag, name, props, options, elementNS) {
-    if (elementNS) return document.createElementNS(tag, [...elementNS, ...options]);
+    if (elementNS) return document.createElementNS(elementNS, tag, options);
     else return document.createElement(tag, options);
   }
 
@@ -188,7 +185,7 @@ class Compo extends part {
    * @returns {mixed}
    */
   getStyle(prop) {
-    return window.getComputedStyle(this[this.ns])[prop];
+    return getComputedStyle(this[this.ns])[prop];
   }
 
   /**
@@ -241,7 +238,7 @@ class Compo extends part {
    */
   get parent() {
     const el = this[this.ns];
-    return el.parentElement && '_1' in el.parentElement ? el.parentElement._1 : null;
+    return el.parentElement && el.parentElement._1 ? el.parentElement._1 : null;
   }
 
   /**

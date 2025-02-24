@@ -57,7 +57,7 @@ class base {
       element = args[0];
       options = args[1];
     //TODO nodeType
-    } else if ('nodeType' in args[0] && !! args[0].nodeType) {
+    } else if (typeof args[0] == 'object' && args[0].nodeType) {
       element = args[0];
     } else {
       options = args[0];
@@ -285,7 +285,7 @@ class base {
    * @returns {int} time Delay time in milliseconds
    */
   styleTime(node, prop) {
-    let time = Compo.isCompo(node) ? node.getStyle(prop) : window.getComputedStyle(node)[prop];
+    let time = Compo.isCompo(node) ? node.getStyle(prop) : getComputedStyle(node)[prop];
 
     if (time) {
       time = time.indexOf('s') ? (parseFloat(time) * 1e3) : parseInt(time);

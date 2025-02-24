@@ -42,9 +42,9 @@ class Data {
       Object.assign(this, {}, obj);
     }
 
-    const ns0 = this.ns = '_' + ns;
+    const ns0 = this.ns = `_${ns}`;
 
-    this.__Data = false;
+    this.__Data = 0;
     this[ns0] = {ns};
   }
 
@@ -64,7 +64,6 @@ class Data {
    */
   compo(tag, name, props, defer = false, load = false, unload = false) {
     const ns = this[this.ns].ns;
-
     let compo;
 
     if (defer) {

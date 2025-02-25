@@ -15,7 +15,6 @@
  */
 
 import Compo from './Compo.js';
-import { l10n } from './locale.js';
 
 
 /**
@@ -72,6 +71,45 @@ class Event {
   remove(func) {
     const {node, name} = this[this.ns];
     node.removeEventListener(name, func);
+  }
+
+  /**
+   * Prevents the default event action for Event
+   *
+   * @see Event.preventDefault
+   *
+   * @static
+   * @param {Event} event An Event
+   */
+  static prevent(event) {
+    event.preventDefault();
+  }
+
+  /**
+   * Performs focus on event target
+   *
+   * @see HTMLElement.focus
+   *
+   * @static
+   * @param {Event} event An Event
+   * @param {object} options Options for focus
+   */
+  static focus(event, options) {
+    const {currentTarget} = event;
+    currentTarget && currentTarget.focus(options);
+  }
+
+  /**
+   * Performs blur on event target
+   *
+   * @see HTMLElement.blur
+   *
+   * @static
+   * @param {Event} event An Event
+   */
+  static blur(event) {
+    const {currentTarget} = event;
+    currentTarget && currentTarget.blur();
   }
 
   /**

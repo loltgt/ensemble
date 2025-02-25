@@ -28,21 +28,6 @@ import { l10n } from './locale.js';
 class base {
 
   /**
-   * Default properties
-   *
-   * @virtual
-   * @returns {object}
-   */
-  // defaults() { return {}; }
-
-  /**
-   * Methods binding
-   *
-   * @virtual
-   */
-  // binds() {}
-
-  /**
    * Constructor method
    *
    * @constructs
@@ -57,7 +42,7 @@ class base {
       element = args[0];
       options = args[1];
     //TODO nodeType
-    } else if (typeof args[0] == 'object' && args[0].nodeType) {
+    } else if (args[0] && typeof args[0] == 'object' && args[0].nodeType) {
       element = args[0];
     } else {
       options = args[0];
@@ -135,24 +120,14 @@ class base {
    *
    * When the passed first argument is a string makes a new Event instance 
    * otherwise it returns a reference to the Event class.
-   * 
-   * Passing an Event instance as the first argument, 
-   * event preventDefault() and blur() will be performed.
    *
-   * @param {string|Event} event A valid Event name or Event instance
+   * @param {string} name A valid Event name
    * @param {Element} node An Element node
    * @returns {mixed} Instance of Event or Event class reference
    */
-  event(event, node) {
-    if (typeof event == 'string') {
-      return new Event(this.options.ns, event, node);
-    } else if (event) {
-      event.preventDefault();
-      //TODO delay
-      event.target.blur();
-    } else {
-      return Event;
-    }
+  event(name, node) {
+    const ns = this.options.ns;
+    return name != undefined ? new Event(ns, name, node) : Event;
   }
 
   /**
@@ -168,7 +143,6 @@ class base {
    */
   selector(query, node, all = false) {
     node = node || document;
-
     return all ? node.querySelectorAll(query) : node.querySelector(query);
   }
 
@@ -207,8 +181,8 @@ class base {
    * @param {Element} node An Element node to remove
    * @returns {boolean}
    */
-  removeNode(root, node) {
-    return !! root.removeChild(node);
+  removeNode(parent, node) {
+    return !! parent.removeChild(node);
   }
 
   /**

@@ -15,7 +15,6 @@
  */
 
 import Compo from './Compo.js';
-import { l10n } from './locale.js';
 
 
 /**
@@ -90,6 +89,7 @@ class Data {
   async render(slot) {
     const el = this[this.ns];
     const self = this;
+    // _ circular
 
     if (el[slot] && el[slot]._) {
       el[slot].load();
@@ -108,6 +108,7 @@ class Data {
    */
   async unload(slot) {
     const el = this[this.ns];
+    // _ circular
 
     if (el[slot] && el[slot]._) {
       el[slot].unload();
@@ -123,6 +124,7 @@ class Data {
    */
   async reflow(slot, force) {
     const el = this[this.ns];
+    // _ circular
 
     if (force) {
       el[slot] = this.compo(el[slot]._.ns, el[slot]._.name, el[slot]._.props);

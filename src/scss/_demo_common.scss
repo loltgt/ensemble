@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
 :active, :focus {
-  outline: none;
+  outline: 0;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -12,7 +12,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font: normal 1rem/1.5 system-ui, sans-serif;
+  font: normal .89rem/1.5 system-ui, sans-serif;
   color: #000;
   background: #fafeff;
 }
@@ -27,12 +27,12 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 h1 {
-  margin: 0 0 2rem;
-  font-size: 2em;
+  margin: 0 0 1.5rem;
+  font-size: 1.5em;
 }
 h2, h3 {
-  margin: 3rem 0 1rem;
-  font-size: 1.17em;
+  margin: 1.5rem 0 .5rem;
+  font-size: 1.13em;
 
   em,
   code {
@@ -44,30 +44,29 @@ h2, h3 {
     font-weight: 600;
   }
   code {
-    font-size: 1rem;
+    font-size: 89%;
     letter-spacing: -.05rem;
   }
 }
 section > h2 {
-  display: flex;
-  margin: 0 0 2.5rem;
-  font-size: 1.5em;
-
-  &:before {
-    content: "class";
-    display: block;
-    margin: auto .75rem .4rem;
-    margin-inline-start: 0;
-    padding: .2rem;
-    font-size: .7rem;
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: -.02rem;
-    color: #fafeff;
-    background: #000;
-    border-radius: .1rem;
-    opacity: .6;
-  }
+  margin: 0 0 1.25rem;
+  font-size: 1.35em;
+}
+.js-class:before {
+  content: "class";
+  display: inline-block;
+  margin: 0 .75rem;
+  margin-inline-start: 0;
+  padding: .2rem;
+  font-size: .76ch;
+  font-weight: 500;
+  line-height: 1;
+  vertical-align: middle;
+  letter-spacing: -.02rem;
+  color: #fff;
+  background: #000;
+  border-radius: .1rem;
+  opacity: .6;
 }
 
 main {
@@ -80,5 +79,34 @@ main {
 section,
 article {
   display: block;
-  margin: 3rem 0 5rem;
+  margin: 3em 0 5em;
+}
+
+
+// Responsive
+
+// xs: 0       (extra-small 480)
+// sm: 576px   (small 640)
+// md: 768px   (medium 800)
+// lg: 992px   (large 1024)
+// xl: 1200px  (extra-large 1280)
+
+// breakpoint: md (medium 800)
+@media (min-width: 768px) {
+  body {
+    font-size: 1rem;
+  }
+
+  h1 {
+    margin: 0 0 2rem;
+    font-size: 2em;
+  }
+  h2, h3 {
+    margin: 3rem 0 1rem;
+    font-size: 1.17em;
+  }
+  section > h2 {
+    margin: 0 0 2.5rem;
+    font-size: 1.5em;
+  }
 }

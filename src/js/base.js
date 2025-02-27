@@ -31,7 +31,7 @@ class base {
    * Constructor method
    *
    * @constructs
-   * @param {Element} [element] A valid element
+   * @param {Element} [element] An optional valid Element node
    * @param {object} options Options object
    */
   constructor() {
@@ -173,19 +173,6 @@ class base {
   }
 
   /**
-   * Shorthand for Element.removeNode [DOM]
-   *
-   * @see Element.removeNode
-   *
-   * @param {Element} parent An Element parent
-   * @param {Element} node An Element node to remove
-   * @returns {boolean}
-   */
-  removeNode(parent, node) {
-    return !! parent.removeChild(node);
-  }
-
-  /**
    * Shorthand for Element.cloneNode [DOM]
    *
    * @see Element.cloneNode
@@ -225,28 +212,43 @@ class base {
   }
 
   /**
-   * Shorthand for Element.setAttribute [DOM]
+   * Util to create an icon
    *
-   * @see Element.setAttribute
-   *
-   * @param {Element} node An Element node
-   * @param {string} attr An attribute
-   * @param {string} value The value
+   * @param {string} type Icons type: font, svg, symbol, shape
+   * @param {string} name Icon name
+   * @param {string} prefix Icon prefix, CSS class name
+   * @param {string} path Icon SVG path or SVG image src
+   * @param {string} hash Icon SVG symbol href or SVG image src hash
    */
-  setAttr(node, attr, value) {
-    node.setAttribute(attr, value);
-  }
+  icon(type, name, prefix, path, hash) {
+    const ns = this.options.ns;
+    const className = prefix ? `${prefix}-${name}` : name;
+    const icon = this.compo('span', 'icon', {className});
 
-  /**
-   * Shorthand for Element.removeAttribute [DOM]
-   *
-   * @see Element.removeAttribute
-   *
-   * @param {Element} node An Element node
-   * @param {string} attr An attribute
-   */
-  delAttr(node, attr) {
-    node.removeAttribute(attr);
+    if (type != 'font') {
+      if (type == 'symbol' || type == 'path') {
+        const svgNsUri = 'http://www.w3.org/2000/svg';
+        const svg = new Compo(ns, 'svg', false, false, false, svgNsUri);
+        const node = new Compo(ns, type, false, false, false, svgNsUri);
+
+        if (type == 'symbol') {
+          node.setAttr('href', `#${name}`);
+        } else {
+          node.setAttr('d', path);
+        }
+        svg.append(node);
+
+        icon.append(svg);
+      //TODO check origin ?
+      } else if (type == 'svg' && path && hash) {
+        const img = new compo(ns, 'img', false, {
+          'src': `${path}#${hash}`
+        });
+        icon.append(img);
+      }
+    }
+
+    return icon;
   }
 
   /**
@@ -269,6 +271,21 @@ class base {
   }
 
   /**
+   * Provides a delay with callback function
+   *
+   * @see window.setTimeout
+   *
+   * @param {function} func A callback function
+   * @param {mixed} node An Element node or a compo
+   * @param {int} time Default delay time in milliseconds
+   */
+  delay(func, node, time) {
+    const delay = node ? this.styleTime(node, 'transitionDuration') : 0;
+
+    setTimeout(func, delay || time);
+  }
+
+  /**
    * Creates a proxy function to the instance
    *
    * @param {function} method A method from the current instance
@@ -282,21 +299,6 @@ class base {
     }
 
     return function(event) { method.call(self, event, this); }
-  }
-
-  /**
-   * Provides a delay with callback function
-   *
-   * @see window.setTimeout
-   *
-   * @param {function} func A callback function
-   * @param {mixed} node An Element node or a compo
-   * @param {int} time Default delay time in milliseconds
-   */
-  delay(func, node, time) {
-    const delay = node ? this.styleTime(node, 'transitionDuration') : 0;
-
-    setTimeout(func, delay || time);
   }
 
 }

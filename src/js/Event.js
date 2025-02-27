@@ -106,10 +106,11 @@ class Event {
    *
    * @static
    * @param {Event} event An Event
+   * @param {int} delay Delay time in milliseconds
    */
-  static blur(event) {
+  static blur(event, delay = 1e2) {
     const {currentTarget} = event;
-    currentTarget && currentTarget.blur();
+    setTimeout(() => currentTarget && currentTarget.blur(), delay);
   }
 
   /**

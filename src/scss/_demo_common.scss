@@ -1,9 +1,11 @@
+@use "sass:string";
+
 * {
   box-sizing: border-box;
 }
 :active, :focus {
   outline: 0;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: string.unquote("transparent");
 }
 
 html {
@@ -32,7 +34,7 @@ h1 {
 }
 h2, h3 {
   margin: 1.5rem 0 .5rem;
-  font-size: 1.13em;
+  font-size: 1.17em;
 
   em,
   code {
@@ -55,10 +57,10 @@ section > h2 {
 .js-class:before {
   content: "class";
   display: inline-block;
-  margin: 0 .75rem;
+  margin: 0 1.05em;
   margin-inline-start: 0;
   padding: .2rem;
-  font-size: .76ch;
+  font-size: .535em;
   font-weight: 500;
   line-height: 1;
   vertical-align: middle;
@@ -103,7 +105,6 @@ article {
   }
   h2, h3 {
     margin: 3rem 0 1rem;
-    font-size: 1.17em;
   }
   section > h2 {
     margin: 0 0 2.5rem;

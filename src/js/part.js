@@ -39,14 +39,14 @@ class part {
    *
    * @see Node.appendChild
    *
-   * @param {Element} root A valid Element node
+   * @param {Element} node A valid Element node
    * @param {function} cb Callback function
    * @returns {boolean}
    */
-  bind(root, cb) {
+  bind(node, cb) {
     const el = this[this.ns];
     typeof cb == 'function' && cb.call(this, el);
-    return !! root.appendChild(el);
+    return !! node.appendChild(el);
   }
 
   /**
@@ -54,14 +54,14 @@ class part {
    *
    * @see Node.removeChild
    *
-   * @param {Element} root A valid Element node
+   * @param {Element} node A valid Element node
    * @param {function} cb Callback function
    * @returns {boolean}
    */
-  unbind(root, cb) {
+  unbind(node, cb) {
     const el = this[this.ns];
     typeof cb == 'function' && cb.call(this, el);
-    return !! root.removeChild(el);
+    return !! node.removeChild(el);
   }
 
   /**

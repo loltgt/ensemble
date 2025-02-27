@@ -12,7 +12,7 @@ section button {
   border-radius: .34rem;
   cursor: pointer;
   appearance: none;
-  transition: opacity ease-out 73ms;
+  transition: opacity 73ms ease-out;
 
   &:active, &:focus {
     color: #fff;

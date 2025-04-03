@@ -5,6 +5,9 @@
 // In this example, ensemble Modal, Lightbox and SocialShare are loaded when demanded
 // Predefined scripts and stylesheets are loaded asynchronously on componentDidMount
 //
+// @requires react@17
+// @todo
+//
 
 import React from 'react';
 

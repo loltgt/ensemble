@@ -6,9 +6,9 @@
   "exports": "./index.js",
   "scripts": {
     "build": "npx gulp build",
-    "build.js": "npx gulp build.js",
-    "build.compat": "npx gulp build.compat",
-    "build.compat.js": "npx gulp build.compat.js",
+    "build:js": "npx gulp build:js",
+    "build:compat": "npx gulp build:compat",
+    "build:compat:js": "npx gulp build:compat:js",
     "watch": "npx gulp watch"
   },
   "repository": "git+https://github.com/loltgt/ensemble.git",

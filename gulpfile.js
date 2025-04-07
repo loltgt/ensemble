@@ -240,10 +240,10 @@ const build_compat = parallel([build_compat_js, build_compat_css]);
 const build = parallel([build_js, build_css]);
 
 exports['build'] = build;
-exports['build.js'] = build_js;
-exports['build.css'] = build_css;
-exports['build.compat.js'] = build_compat_js;
-exports['build.compat.css'] = build_compat_css;
-exports['build.compat'] = build_compat;
+exports['build:js'] = build_js;
+exports['build:css'] = build_css;
+exports['build:compat:js'] = build_compat_js;
+exports['build:compat:css'] = build_compat_css;
+exports['build:compat'] = build_compat;
 exports['watch'] = watcher;
 exports.default = build;

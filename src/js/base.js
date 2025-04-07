@@ -41,7 +41,7 @@ class base {
     if (args.length > 1) {
       element = args[0];
       options = args[1];
-    //TODO nodeType
+    // ref nodeType
     } else if (args[0] && typeof args[0] == 'object' && args[0].nodeType) {
       element = args[0];
     } else {
@@ -215,32 +215,36 @@ class base {
    * Util to create an icon
    *
    * @param {string} type Icons type: font, svg, symbol, shape
-   * @param {string} name Icon name
+   * @param {string} name Icon name, CSS class name
    * @param {string} prefix Icon prefix, CSS class name
    * @param {string} path Icon SVG path or SVG image src
    * @param {string} hash Icon SVG symbol href or SVG image src hash
+   * @param {string} viewBox Icon SVG viewBox size
    */
-  icon(type, name, prefix, path, hash) {
+  icon(type, name, prefix, path, hash, viewBox) {
     const ns = this.options.ns;
     const className = prefix ? `${prefix}-${name}` : name;
     const icon = this.compo('span', 'icon', {className});
 
     if (type != 'font') {
-      if (type == 'symbol' || type == 'path') {
+      //TODO type.length 'symbol' 'shape'
+      if (type == 'symbol' || type == 'shape') {
         const svgNsUri = 'http://www.w3.org/2000/svg';
         const svg = new Compo(ns, 'svg', false, false, false, svgNsUri);
-        const node = new Compo(ns, type, false, false, false, svgNsUri);
+        const node = new Compo(ns, type == 'symbol' ? 'use' : 'path', false, false, false, svgNsUri);
 
+        if (viewBox) {
+          svg.setAttr('viewBox', viewBox);
+        }
         if (type == 'symbol') {
-          node.setAttr('href', `#${name}`);
+          node.setAttr('href', `#${hash}`);
         } else {
           node.setAttr('d', path);
         }
         svg.append(node);
 
         icon.append(svg);
-      //TODO check origin ?
-      } else if (type == 'svg' && path && hash) {
+      } else if (type == 'svg' && this.origin()) {
         const img = new compo(ns, 'img', false, {
           'src': `${path}#${hash}`
         });
@@ -249,6 +253,24 @@ class base {
     }
 
     return icon;
+  }
+
+  /**
+   * URL origin comparator
+   *
+   * @see URL
+   * @see window.origin
+   * @see window.location
+   *
+   * @param {URL} b URL
+   * @param {URL} a URL
+   * @returns {boolean} Check is same origin
+   */
+  origin(b, a) {
+    a = URL.canParse(a) ? a : (window.origin != 'null' ? window.origin : window.location.origin);
+    b = URL.canParse(b) ? new URL(b).origin : a;
+
+    return a && b && a === b;
   }
 
   /**

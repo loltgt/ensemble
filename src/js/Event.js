@@ -96,7 +96,7 @@ class Event {
    */
   static focus(event, options) {
     const {currentTarget} = event;
-    currentTarget && currentTarget.focus(options);
+    currentTarget.focus && currentTarget.focus(options);
   }
 
   /**
@@ -110,7 +110,7 @@ class Event {
    */
   static blur(event, delay = 1e2) {
     const {currentTarget} = event;
-    setTimeout(() => currentTarget && currentTarget.blur(), delay);
+    setTimeout(() => currentTarget.blur && currentTarget.blur(), delay);
   }
 
   /**

@@ -1,6 +1,6 @@
 {
   "name": "ensemble--demo",
-  "version": "0.0.4",
+  "version": "0.4.0",
   "description": "demo contents for ensemble",
   "repository": "git+https://github.com/loltgt/ensemble.git#demo",
   "author": "Leonardo Laureti",

@@ -1,6 +1,6 @@
 {
   "name": "ensemble",
-  "version": "0.0.4",
+  "version": "0.4.0",
   "description": "Tiny JS library and foundation for Lightbox, Modal and SocialShare",
   "main": "index.js",
   "exports": "./index.js",
@@ -14,9 +14,7 @@
   "repository": "git+https://github.com/loltgt/ensemble.git",
   "author": "Leonardo Laureti",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/loltgt/ensemble/issues"
-  },
+  "bugs": "https://github.com/loltgt/ensemble/issues",
   "homepage": "https://github.com/loltgt/ensemble",
   "devDependencies": {
     "@babel/cli": "^7.26.4",

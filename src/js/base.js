@@ -94,7 +94,7 @@ class base {
    *
    * @param {string} [tag='div'] The Element node name or compo name, empty for Compo class reference
    * @param {mixed} [name] The compo name, used for CSS className
-   * @param {object} Properties for compo
+   * @param {object} props Properties for compo
    * @returns {mixed} Instance of Compo or Compo class reference
    */
   compo(tag, name, props) {

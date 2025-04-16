@@ -95,14 +95,14 @@ class part {
   /**
    * Prepends a compo to this compo
    *
-   * @see Node.prependChild
+   * @see Node.insertBefore
    *
    * @param {part} compo A compo
    * @returns {boolean}
    */
   prepend(compo) {
     const ns = this.ns, el = this[ns];
-    return !! el.prependChild(compo[ns]);
+    return !! el.insertBefore(compo[ns], el.firstElementChild || null);
   }
 
   /**

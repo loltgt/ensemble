@@ -148,32 +148,6 @@ class base {
   }
 
   /**
-   * Shorthand for Element.appendChild [DOM]
-   *
-   * @see Element.appendChild
-   *
-   * @param {Element} parent An Element parent
-   * @param {Element} node An Element node to append
-   * @returns {boolean}
-   */
-  appendNode(parent, node) {
-    return !! parent.appendChild(node);
-  }
-
-  /**
-   * Shorthand for Element.prependChild [DOM]
-   *
-   * @see Element.prependChild
-   *
-   * @param {Element} parent An Element parent
-   * @param {Element} node An Element node to prepend
-   * @returns {boolean}
-   */
-  prependNode(parent, node) {
-    return !! parent.prependChild(node);
-  }
-
-  /**
    * Shorthand for Element.cloneNode [DOM]
    *
    * @see Element.cloneNode
@@ -283,7 +257,7 @@ class base {
    * @param {string} prop A style property
    * @returns {int} time Delay time in milliseconds
    */
-  styleTime(node, prop) {
+  cst(node, prop) {
     let time = Compo.isCompo(node) ? node.getStyle(prop) : getComputedStyle(node)[prop];
 
     if (time) {
@@ -303,7 +277,7 @@ class base {
    * @param {int} time Default delay time in milliseconds
    */
   delay(func, node, time) {
-    const delay = node ? this.styleTime(node, 'transitionDuration') : 0;
+    const delay = node ? this.cst(node, 'transitionDuration') : 0;
 
     setTimeout(func, delay || time);
   }

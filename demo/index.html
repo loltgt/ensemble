@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>ensemble components demo showcase</title>
+<meta name="description" content="demo showcase is the starting point to explore ensemble components: Modal, Lightbox, SocialShare">
+<link rel="canonical" href="https://loltgt.github.io/ensemble/demo/">
+<link rel="stylesheet" href="demo-ensemble.css">
+</head>
+<body>
+<main>
+  <h1>ensemble components showcase</h1>
+
+  <p>ensemble is a tiny JavaScript library from loltgt. Three components, Modal, Lightbox and SocialShare are based on ensemble. This page is the starting point to explore ensemble components demos.</p>
+  <p>From demos you can view source the page to discover options and examples.</p>
+  <p>Choice a demo from the following menu</p>
+
+  <nav id="showcase">
+    <a href="https://loltgt.github.io/ensemble-modal/demo/">Modal demo</a>
+    <a href="https://loltgt.github.io/ensemble-lightbox/demo/">Lightbox demo</a>
+    <a href="https://loltgt.github.io/ensemble-social-share/demo/">SocialShare demo</a>
+  </nav>
+</main>
+<footer>
+  <p>ensemble is free and licensed under <a href="../LICENSE" target="_blank" onclick="return!(window.origin!='null'&&fetch(this.href).then((r)=>r.blob().then((b)=>window.open(window.URL.createObjectURL(b),'_blank'))))">MIT License</a>.</p>
+  <a class="repo" href="https://github.com/loltgt/ensemble">GitHub repo</a>
+</footer>
+<script>
+for (const s of document.querySelectorAll('#showcase a')) {
+  s.addEventListener('mouseover', (e) => {
+    s.style = `background-position: ${e.offsetX}px ${e.offsetY}px`;
+  });
+  s.addEventListener('mouseout', (e) => {
+    s.style = `background-position: 50% 50%`;
+    setTimeout(() => { s.style = '' }, 34);
+  });
+}
+</script>
+</body>
+</html>

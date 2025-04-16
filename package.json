@@ -2,6 +2,11 @@
   "name": "ensemble--demo",
   "version": "0.4.0",
   "description": "demo contents for ensemble",
+  "scripts": {
+    "demo:css": "npx gulp demo:css",
+    "demo:prepublish": "npx gulp demo:prepublish",
+    "demo": "npx gulp"
+  },
   "repository": "git+https://github.com/loltgt/ensemble.git#demo",
   "author": "Leonardo Laureti",
   "license": "MIT",

@@ -12,8 +12,12 @@ html {
   line-height: 1.15;
 }
 body {
-  margin: 0;
-  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 960px;
+  margin: auto;
+  padding: 5vh 1rem 0;
   font: normal .89rem/1.5 system-ui, sans-serif;
   color: #000;
   background: #fafeff;
@@ -27,8 +31,7 @@ a {
   color: #04d;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  display: block;
+h1, h2, h3 {
   padding: 0;
   font-weight: 700;
 }
@@ -74,22 +77,17 @@ section > h2 {
   border-radius: .1rem;
   opacity: .6;
 }
-
-main {
-  display: block;
-  max-width: 960px;
-  margin: auto;
-  padding: 5vh 1rem 0;
+.js-class a {
+  color: inherit;
 }
 
 section,
 article {
-  display: block;
   margin: 3em 0 5em;
 }
 
 footer {
-  margin: 0 0 2ch;
+  margin: auto 0 2ch;
   padding: .7em 0 1.5em;
 }
 

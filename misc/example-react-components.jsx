@@ -9,7 +9,7 @@
 // @todo
 //
 
-import React from 'react';
+import React from "react";
 
 
 class RCEnsembleComponent extends React.Component {
@@ -25,24 +25,24 @@ class RCEnsembleComponent extends React.Component {
 
   #getSrcUrl(name) {
     switch (name) {
-      case 'modal':
+      case "modal":
         return {
-          'js': 'ensemble-modal/dist/js/ensemble-modal.min.js',
-          'css': 'ensemble-modal/dist/css/ensemble-modal.min.css'
+          "js": "ensemble-modal/dist/js/ensemble-modal.min.js",
+          "css": "ensemble-modal/dist/css/ensemble-modal.min.css"
         };
-      case 'lightbox':
+      case "lightbox":
         return {
-          'js': 'ensemble-lightbox/dist/js/ensemble-lightbox.min.js',
-          'css': 'ensemble-lightbox/dist/css/ensemble-lightbox.min.css'
+          "js": "ensemble-lightbox/dist/js/ensemble-lightbox.min.js",
+          "css": "ensemble-lightbox/dist/css/ensemble-lightbox.min.css"
         };
-      case 'social-share':
+      case "social-share":
         return {
-          'js': 'ensemble-social-share/dist/js/ensemble-social-share.min.js',
-          'css': 'ensemble-social-share/dist/css/ensemble-social-share.min.css'
+          "js": "ensemble-social-share/dist/js/ensemble-social-share.min.js",
+          "css": "ensemble-social-share/dist/css/ensemble-social-share.min.css"
         };
-      case 'social-share-icons':
+      case "socialshare-icons":
         return {
-          'css': 'ensemble-social-share/dist/font/socialshare-icons.min.css'
+          "css": "ensemble-social-share/dist/font/socialshare-icons.min.css"
         };
     }
   }
@@ -56,12 +56,12 @@ class RCEnsembleComponent extends React.Component {
     const src = this.#getSrcUrl(name);
     if (! src) return;
 
-    const script = document.createElement('script');
+    const script = document.createElement("script");
     script.src = src.js;
     script.async = true;
-    script.setAttribute('data-load', id);
+    script.setAttribute("data-load", id);
 
-    if (cb && typeof cb == 'function')
+    if (cb && typeof cb == "function")
       script.onload = cb;
 
     document.body.appendChild(script);
@@ -76,12 +76,12 @@ class RCEnsembleComponent extends React.Component {
     const href = this.#getSrcUrl(name);
     if (! href) return;
 
-    const style = document.createElement('link');
-    style.rel = 'stylesheet';
+    const style = document.createElement("link");
+    style.rel = "stylesheet";
     style.href = href.css;
-    style.setAttribute('data-load', id);
+    style.setAttribute("data-load", id);
 
-    if (cb && typeof cb == 'function')
+    if (cb && typeof cb == "function")
       style.onload = cb;
 
     document.head.appendChild(style);
@@ -91,12 +91,12 @@ class RCEnsembleComponent extends React.Component {
 
 class RCEnsembleModal extends RCEnsembleComponent {
   deferLoad() {
-    this.loadScript('modal', this.loadCallback);
-    this.loadStyleSheet('modal');
+    this.loadScript("modal", this.loadCallback);
+    this.loadStyleSheet("modal");
   }
 
   loadCallback() {
-    this.modal = new ensemble.Modal(document.querySelector('.inline-content'));
+    this.modal = new ensemble.Modal(document.querySelector(".inline-content"));
   }
 
   openTrigger(modal) {
@@ -117,19 +117,25 @@ class RCEnsembleModal extends RCEnsembleComponent {
 
 class RCEnsembleLightbox extends RCEnsembleComponent {
   deferLoad() {
-    this.loadScript('lightbox', this.loadCallback);
-    this.loadStyleSheet('lightbox');
+    this.loadScript("lightbox", this.loadCallback);
+    this.loadStyleSheet("lightbox");
   }
 
   loadCallback() {
-    this.lightbox = new ensemble.Lightbox({
-      contents: [
-        {
-          'type': 'image',
-          'src': 'image.png'
-        }
-      ]
-    });
+    this.lightbox = new ensemble.Lightbox(
+      {
+        contents: [
+          {
+            type: "image",
+            src: "image.png"
+          },
+          {
+            type: "iframe",
+            src: "https://example.org/"
+          }
+        ]
+      }
+    );
   }
 
   openTrigger(lightbox) {
@@ -148,13 +154,13 @@ class RCEnsembleLightbox extends RCEnsembleComponent {
 
 class RCEnsembleSocialShare extends RCEnsembleComponent {
   deferLoad() {
-    this.loadScript('social-share', this.loadCallback);
-    this.loadStyleSheet('social-share');
-    this.loadStyleSheet('social-share-icons');
+    this.loadScript("social-share", this.loadCallback);
+    this.loadStyleSheet("social-share");
+    this.loadStyleSheet("socialshare-icons");
   }
 
   loadCallback() {
-    new ensemble.SocialShare(document.querySelector('[data-social-share]'));
+    new ensemble.SocialShare(document.querySelector("[data-social-share]"));
   }
 
   render() {

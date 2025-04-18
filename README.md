@@ -17,19 +17,18 @@ ensemble is not gluey, it does not contain any kind of superstructure.
 You can use ensemble also with other libraries (examples in the *misc* folder).
 
 
+## Demo
+
+To see in action ensemble components: Modal, Lightbox and SocialShare, look at the demo showcase on this page: [https://loltgt.github.io/ensemble/demo/](https://loltgt.github.io/ensemble/demo/)
+
+View source from `demo` pages to discover options and examples.
+
 ## Install
 
 Using npm:
 ```shell
 npm install --save-dev loltgt/ensemble
 ```
-
-## Demo
-
-To see in action ensemble components: Modal, Lightbox and SocialShare, look at the demo showcase on this page: [https://loltgt.github.io/ensemble/demo/](https://loltgt.github.io/ensemble/demo/)
-
-View source from demo pages to discover options and examples.
-
 
 ## License
 

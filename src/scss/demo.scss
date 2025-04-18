@@ -41,18 +41,13 @@
     --k: #efefefef; // #eeee #efefefef
     box-shadow: inset 0 0 .5px .1px string.unquote("#0002");
     background-color: string.unquote("#ebebebff"); // #eeef #ebebebff
+    animation: far ease-out 3.55555s;
   }
   &:focus {
     --a: 67%;
     box-shadow: inset 0 0 .5px 3.75px string.unquote("#01010122");
     background-color: string.unquote("#ebebebff"); // #dddc #ebebebff
     transition: background linear 34ms;
-  }
-
-  @media (hover: hover) {
-    &:hover {
-      animation: far ease-out 3.55555s;
-    }
   }
 
   &:nth-child(1) { --c: hsl(80deg 75% 78.9% / var(--a)); } // 78% 78.9%

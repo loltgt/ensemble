@@ -202,7 +202,6 @@ class base {
     const icon = this.compo('span', 'icon', {className});
 
     if (type != 'font') {
-      //TODO type.length 'symbol' 'shape'
       if (type == 'symbol' || type == 'shape') {
         const svgNsUri = 'http://www.w3.org/2000/svg';
         const svg = new Compo(ns, 'svg', false, false, false, svgNsUri);

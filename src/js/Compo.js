@@ -18,6 +18,7 @@ import part from './part.js';
 import { l10n } from './locale.js';
 
 
+//TODO move to part.js
 const REJECTED_TAGS = 'html|head|body|meta|link|style|script';
 const DENIED_PROPS ='attributes|classList|innerHTML|outerHTML|nodeName|nodeType';
 
@@ -40,7 +41,6 @@ class Compo extends part {
    * Constructor method
    *
    * @constructs
-   * @constant {RegExp} REJECTED_TAG_NAMES Regular expression for rejected tag names
    * @constant {RegExp} REJECTED_TAGS Regular expression for rejected tag
    * @constant {RegExp} DENIED_PROPS Regular expression for denied properties
    * @param {string} ns Compo namespace

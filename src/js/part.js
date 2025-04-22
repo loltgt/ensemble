@@ -125,7 +125,6 @@ class part {
    *
    * @see Node.appendChild
    *
-   * @constant {RegExp} REJECTED_TAG_NAMES Regular expression for rejected tag names
    * @constant {RegExp} REJECTED_TAGS Regular expression for rejected tag
    * @param {Element} node A valid Element node
    * @returns {boolean}

@@ -14,9 +14,13 @@ section button {
   appearance: none;
   transition: opacity 73ms ease-out;
 
-  &:active, &:focus {
+  &:active,
+  &:focus {
     color: #fff;
     background: #1c356c;
+  }
+  &:focus-visible {
+    outline-offset: 2.5px;
   }
   &:hover {
     opacity: .95;

@@ -294,7 +294,7 @@ class base {
       throw new TypeError(l10n.EMETH);
     }
 
-    return function(event) { method.call(self, event, this); }
+    return function() { method.call(self, ...arguments, this); }
   }
 
 }

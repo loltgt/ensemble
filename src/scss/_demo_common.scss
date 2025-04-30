@@ -123,3 +123,27 @@ footer {
     font-size: 1.5em;
   }
 }
+
+#toolbar {
+  margin: 2em 0 3.25em;
+
+  fieldset {
+    margin: 0;
+    padding: .35em .75em .625em;
+    border: 1px solid #999;
+    font-size: .89rem;
+  }
+
+  .label {
+    margin-inline: 0 .25em;
+  }
+}
+
+[lang="en"][dir="rtl"] {
+  body > :not(dialog) {
+    p, h1, h2, h3 {
+      direction: ltr;
+      text-align: right;
+    }
+  }
+}

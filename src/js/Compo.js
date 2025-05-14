@@ -33,7 +33,7 @@ const DENIED_PROPS ='attributes|classList|innerHTML|outerHTML|nodeName|nodeType'
  * @extends part
  * @inheritdoc
  * @example
- * new ensemble.Compo('compo-namespace', 'div', 'compo-name', {id: 'compo-id', tabIndex: 1});
+ * new ensemble.Compo("compo-namespace", "div", "compo-name", {id: "compo-id", attribute: "value"});
  */
 class Compo extends part {
 
@@ -47,8 +47,8 @@ class Compo extends part {
    * @param {string} [tag='div'] The Element node name or compo name
    * @param {string[]} [name] The compo name, used for CSS className
    * @param {object} [props] Properties for compo
-   * @param {object} [options] An optional ElementCreationOptions object
-   * @param {object} [elementNS] Options for namespace Element node
+   * @param {?object} [options] An optional ElementCreationOptions object
+   * @param {?object} [elementNS] Options for namespace Element node
    * @param {string} [elementNS.namespaceURI] A valid namespace URI
    * @param {string} [elementNS.qualifiedName] A valid qualified name
    */
@@ -112,15 +112,15 @@ class Compo extends part {
   /**
    * Object wrapper
    *
-   * @see document.createElement
-   * @see document.createElementNS
+   * @see Document.createElement
+   * @see Document.createElementNS
    *
    * @param {string} ns Compo namespace
    * @param {string} tag The Element node name or compo name
    * @param {string} name Name for compo, used for CSS className
    * @param {object} props Properties for compo
-   * @param {object} [options] An optional ElementCreationOptions object
-   * @param {object} [elementNS] Options for namespaced Element node
+   * @param {?object} [options] An optional ElementCreationOptions object
+   * @param {?object} [elementNS] Options for namespaced Element node
    * @param {string} [elementNS.namespaceURI] A valid namespace URI
    * @param {string} [elementNS.qualifiedName] A valid qualified name
    */
@@ -179,7 +179,7 @@ class Compo extends part {
   /**
    * Gets a current style property
    *
-   * @see window.getComputedStyle
+   * @see Window.getComputedStyle
    *
    * @param {string} prop A style property
    * @returns {mixed}

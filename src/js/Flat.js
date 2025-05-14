@@ -28,7 +28,7 @@ import part from './part.js';
  * @inheritdoc
  * @param {string} ns Compo namespace
  * @example
- * new ensemble.Flat('compo-namespace');
+ * new ensemble.Flat("compo-namespace");
  */
 class Flat extends part {
 
@@ -53,7 +53,7 @@ class Flat extends part {
   /**
    * Object wrapper
    *
-   * @see document.createDocumentFragment
+   * @see Document.createDocumentFragment
    *
    * @param {string} ns Compo namespace
    */

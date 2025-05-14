@@ -24,7 +24,7 @@ import Compo from './Compo.js';
  *
  * @class
  * @example
- * new ensemble.Event('compo-namespace', 'mousewheel', node).add(callback, {capture: true});
+ * new ensemble.Event("compo-namespace", "mousewheel", node).add(callback, {capture: true});
  */
 class Event {
 
@@ -32,7 +32,7 @@ class Event {
    * Constructor method
    *
    * @see Element.addEventListener
-   * @see Element.removeElementListener
+   * @see Element.removeEventListener
    *
    * @constructs
    * @param {string} ns Event namespace
@@ -64,7 +64,7 @@ class Event {
   /**
    * Removes an event from this compo
    *
-   * @see Element.removeElementListener
+   * @see Element.removeEventListener
    *
    * @param {function} func The function handler
    */
@@ -106,7 +106,7 @@ class Event {
    *
    * @static
    * @param {Event} event An Event
-   * @param {int} delay Delay time in milliseconds
+   * @param {number} delay Delay time in milliseconds
    */
   static blur(event, delay = 1e2) {
     const {currentTarget} = event;

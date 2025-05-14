@@ -93,7 +93,7 @@ class base {
    * otherwise returns a reference to the Compo class.
    *
    * @param {string} [tag='div'] The Element node name or compo name, empty for Compo class reference
-   * @param {mixed} [name] The compo name, used for CSS className
+   * @param {string[]} [name] The compo name, used for CSS className
    * @param {object} props Properties for compo
    * @returns {mixed} Instance of Compo or Compo class reference
    */
@@ -134,11 +134,11 @@ class base {
   /**
    * Shorthand for querySelectorAll and querySelector [DOM]
    *
-   * @see Element.querySelectorAll
-   * @see Element.querySelector
+   * @see Document.querySelectorAll
+   * @see Document.querySelector
    *
    * @param {string} query Text query
-   * @param {Element} node An Element node where find
+   * @param {Element} node An Element node where to find
    * @param {boolean} all Find multiple elements
    * @return {mixed} Element or ElementCollection
    */
@@ -150,7 +150,7 @@ class base {
   /**
    * Shorthand for Element.cloneNode [DOM]
    *
-   * @see Element.cloneNode
+   * @see Node.cloneNode
    *
    * @param {Element} node An Element node to clone
    * @param {boolean} deep Clone the whole Element node tree
@@ -204,8 +204,8 @@ class base {
     if (type != 'font') {
       if (type == 'symbol' || type == 'shape') {
         const svgNsUri = 'http://www.w3.org/2000/svg';
-        const svg = new Compo(ns, 'svg', false, false, false, svgNsUri);
-        const node = new Compo(ns, type == 'symbol' ? 'use' : 'path', false, false, false, svgNsUri);
+        const svg = new Compo(ns, 'svg', false, false, null, svgNsUri);
+        const node = new Compo(ns, type == 'symbol' ? 'use' : 'path', false, false, null, svgNsUri);
 
         if (viewBox) {
           svg.setAttr('viewBox', viewBox);
@@ -219,7 +219,7 @@ class base {
 
         icon.append(svg);
       } else if (type == 'svg' && this.origin()) {
-        const img = new compo(ns, 'img', false, {
+        const img = this.compo(ns, 'img', false, {
           'src': `${path}#${hash}`
         });
         icon.append(img);
@@ -233,8 +233,8 @@ class base {
    * URL origin comparator
    *
    * @see URL
-   * @see window.origin
-   * @see window.location
+   * @see Window.origin
+   * @see Window.location
    *
    * @param {URL} b URL
    * @param {URL} a URL
@@ -250,11 +250,11 @@ class base {
   /**
    * Gets the time from a style property of an element
    *
-   * @see window.getComputedStyle
+   * @see Window.getComputedStyle
    *
    * @param {mixed} node An Element node or a compo
    * @param {string} prop A style property
-   * @returns {int} time Delay time in milliseconds
+   * @returns {number} time Delay time in milliseconds
    */
   cst(node, prop) {
     let time = Compo.isCompo(node) ? node.getStyle(prop) : getComputedStyle(node)[prop];
@@ -269,11 +269,11 @@ class base {
   /**
    * Provides a delay with callback function
    *
-   * @see window.setTimeout
+   * @see Window.setTimeout
    *
    * @param {function} func A callback function
    * @param {mixed} node An Element node or a compo
-   * @param {int} time Default delay time in milliseconds
+   * @param {number} time Default delay time in milliseconds
    */
   delay(func, node, time) {
     const delay = node ? this.cst(node, 'transitionDuration') : 0;

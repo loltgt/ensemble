@@ -25,7 +25,7 @@ import Compo from './Compo.js';
  *
  * @class
  * @example
- * new ensemble.Data('compo-namespace', {compo, foo: 'a string', fooObj: 'an object'});
+ * new ensemble.Data("compo-namespace", {compo, fooString: "a string", fooObject: ["an object"]});
  */
 class Data {
 

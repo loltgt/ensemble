@@ -67,7 +67,7 @@ class part {
   /**
    * Replaces a placeholder element with compo and binds the compo
    *
-   * @see Node.replaceWith
+   * @see ChildNode.replaceWith
    *
    * @param {Element} node A valid Element node used as placeholder
    * @param {function} cb Callback function

@@ -16,7 +16,11 @@
 import { l10n } from './locale.js';
 
 
+/** @constant {string} */
 const REJECTED_TAGS = 'html|head|body|meta|link|style|script';
+
+/** @constant {string} */
+const DENIED_PROPS = 'attributes|classList|innerHTML|outerHTML|nodeName|nodeType';
 
 
 /**
@@ -153,8 +157,7 @@ class part {
   /**
    * Getter for children property, the children compo of this compo
    *
-   * @var {getter}
-   * @returns {array}
+   * @type {array}
    */
   get children() {
     return Array.prototype.map.call(this[this.ns].children, (node) => { return node._1; });
@@ -163,8 +166,7 @@ class part {
   /**
    * Getter for first property, the first compo in this compo
    *
-   * @var {getter}
-   * @returns {part}
+   * @type {part}
    */
   get first() {
     const el = this[this.ns];
@@ -174,8 +176,7 @@ class part {
   /**
    * Getter for last property, the last compo in this compo
    *
-   * @var {getter}
-   * @returns {part}
+   * @type {part}
    */
   get last() {
     const el = this[this.ns];
@@ -185,3 +186,4 @@ class part {
 }
 
 export default part;
+export { part, REJECTED_TAGS, DENIED_PROPS };

@@ -16,22 +16,20 @@
  */
 
 /**
- * Functions to translate
- *
- * @object
+ * Language english
  */
-const l10n_funcs = {
+/** @constant {object} */
+const lang_en_h = {
   EARGN: (name) => `Provided argument "${name}" is not a valid name.`
 };
-
-// en [default]
-const l10n_en = {
-  ETAGN: l10n_funcs.EARGN('tag'),
+/** @constant {object} */
+const lang_en = {
+  ETAGN: lang_en_h.EARGN('tag'),
   EPROP: 'Provided property name is not a valid name.',
   EMTAG: 'Object cannot be resolved into a valid node.',
-  EOPTS: l10n_funcs.EARGN('options'),
-  EELEM: l10n_funcs.EARGN('element'),
-  EMETH: l10n_funcs.EARGN('method'),
+  EOPTS: lang_en_h.EARGN('options'),
+  EELEM: lang_en_h.EARGN('element'),
+  EMETH: lang_en_h.EARGN('method'),
   DOM: 'Direct access to the node is discouraged.'
 };
 
@@ -39,41 +37,88 @@ const l10n_en = {
  * Locale class L10n
  *
  * @class
+ * @param {string} lang Current language name
+ * @example
+ * const l10n = new locale("en");
+ * l10n.set("en", lang_en);
+ * l10n.set("de", lang_de);
+ * l10n.lang = "de";
+ * l10n.tr("ETAGN");
  */
 class locale {
 
   /**
-   * Constructor method
+   * Constructor
    *
    * @constructs
-   * @param {string} lang Language name
-   * @returns {mixed} Translated strings
    */
   constructor(lang) {
-    if (typeof locale[lang] == 'object') {
-      return locale[lang];
-    } else {
-      return locale[0];
-    }
+    this.lang(lang);
   }
 
   /**
-   * Default translation markers
+   * Sets translation strings
+   *
+   * @param {string} lang Language name
+   * @param {object} obj Translation strings
+   */
+  set(lang, obj) {
+    locale[lang] = obj;
+  }
+
+  /**
+   * Gets translation string
+   *
+   * @param {string} marker Translation marker
+   * @returns {string} Translation string
+   */
+  tr(marker) {
+    return locale[this.lang][marker];
+  }
+
+  /**
+   * Language getter
    *
    * @static
-   * @returns {object} Translation markers
+   * @type {string} Current language name
    */
-  static defaults() {
-    return Object.fromEntries(['ETAGN', 'EPROP', 'EMTAG', 'EOPTS', 'EELEM', 'EMETH', 'DOM'].map(a => [a, a]));
+  static get lang() {
+    return locale[0];
   }
-};
+
+  /**
+   * Language setter
+   *
+   * @static
+   * @type {string} lang Current language name
+   */
+  static set lang(lang) {
+    locale[0] = lang;
+  }
+}
 
 /**
- * Default l10n object
+ * Default l10n object proxied
  *
- * @object
+ * @type {Proxy}
+ * @param {locale} locale Locale object
+ * @example
+ * l10n.ETAGN;
  */
-const l10n = locale.defaults();
+const l10n = new Proxy(locale, {
+  /**
+   * Trap for getter
+   *
+   * Returns translation string if set or translation marker.
+   *
+   * @param {object} self
+   * @param {string} marker
+   * @returns {string}
+   */
+  get(self, marker) {
+    return self.lang && self[self.lang][marker] || marker;
+  }
+});
 
 
 export { locale, l10n };

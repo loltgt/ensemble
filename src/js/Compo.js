@@ -14,13 +14,8 @@
  * @exports Compo
  */
 
-import part from './part.js';
+import { part, REJECTED_TAGS, DENIED_PROPS } from './part.js';
 import { l10n } from './locale.js';
-
-
-//TODO move to part.js
-const REJECTED_TAGS = 'html|head|body|meta|link|style|script';
-const DENIED_PROPS ='attributes|classList|innerHTML|outerHTML|nodeName|nodeType';
 
 
 /**
@@ -221,8 +216,7 @@ class Compo extends part {
    *
    * Note: Direct access to the node is discouraged.
    *
-   * @var {getter}
-   * @returns {Element}
+   * @type {Element}
    */
   get node() {
     console.warn(l10n.DOM);
@@ -233,8 +227,7 @@ class Compo extends part {
   /**
    * Getter for parent property, the parent compo of this compo
    *
-   * @var {getter}
-   * @returns {Compo}
+   * @type {Compo}
    */
   get parent() {
     const el = this[this.ns];
@@ -244,8 +237,7 @@ class Compo extends part {
   /**
    * Getter for previous property, the previous sibling of this compo
    *
-   * @var {getter}
-   * @returns {Compo}
+   * @type {Compo}
    */
   get previous() {
     const el = this[this.ns];
@@ -255,8 +247,7 @@ class Compo extends part {
   /**
    * Getter for next property, the next sibling of this compo
    *
-   * @var {getter}
-   * @returns {Compo}
+   * @type {Compo}
    */
   get next() {
     const el = this[this.ns];
@@ -268,8 +259,7 @@ class Compo extends part {
    *
    * @see DOMTokenList
    *
-   * @var {getter}
-   * @returns {DOMTokenList}
+   * @type {DOMTokenList}
    */
   get classList() {
     return this[this.ns].classList;

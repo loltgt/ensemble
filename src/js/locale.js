@@ -105,7 +105,7 @@ class locale {
  * @example
  * l10n.ETAGN;
  */
-const l10n = new Proxy(locale, {
+const l10n = new Proxy({}, {
   /**
    * Trap for getter
    *

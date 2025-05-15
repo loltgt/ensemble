@@ -153,7 +153,7 @@ class base {
    * @see Node.cloneNode
    *
    * @param {Element} node An Element node to clone
-   * @param {boolean} deep Clone the whole Element node tree
+   * @param {boolean} deep Clone inner nodes
    * @returns {boolean}
    */
   cloneNode(node, deep = false) {
@@ -205,18 +205,28 @@ class base {
       if (type == 'symbol' || type == 'shape') {
         const svgNsUri = 'http://www.w3.org/2000/svg';
         const svg = new Compo(ns, 'svg', false, false, null, svgNsUri);
-        const node = new Compo(ns, type == 'symbol' ? 'use' : 'path', false, false, null, svgNsUri);
+        const tag = type == 'symbol' ? 'use' : 'path';
+        const node = new Compo(ns, tag, false, false, null, svgNsUri);
 
         if (viewBox) {
-          svg.setAttr('viewBox', viewBox);
+          const m = viewBox.match(/\d+ \d+ (\d+) (\d+)/);
+
+          if (m) {
+            Object.entries({
+              width: m[1],
+              height: m[2],
+              viewBox: m[0]
+            }).forEach(a => svg.setAttr(a[0], a[1]));
+          }
         }
-        if (type == 'symbol') {
+
+        if (tag == 'use') {
           node.setAttr('href', `#${hash}`);
         } else {
           node.setAttr('d', path);
         }
-        svg.append(node);
 
+        svg.append(node);
         icon.append(svg);
       } else if (type == 'svg' && this.origin()) {
         const img = this.compo(ns, 'img', false, {

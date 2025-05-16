@@ -4,17 +4,18 @@ ensemble is a tiny JavaScript library from loltgt, which can be used as starting
 
 ensemble is the foundation for ensemble.Modal, ensemble.Lightbox and ensemble.SocialShare
 
-It is a JavaScript module with 7 classes:
+It is a JavaScript module with classes:
 * `Compo` composition element, wrap around node `Element` [DOM]
 * `Flat` composition stack, wrap around `DocumentFragment` [DOM]
 * `Data` wrapper for data, wrap around `Compo` element
 * `Event` wrapper for events, wrap around `Event` [DOM]
+* `locale` class for locale and a `l10n` Proxy object
 * `part` abstract for `Compo` and `Flat`
 * `base` abstract for ensemble components
 
 ensemble is not gluey, it does not contain any kind of superstructure.
 
-You can use ensemble also with other libraries (examples in the *misc* folder).
+You can use ensemble with other libraries (examples in the *misc* folder).
 
 
 ## Demo

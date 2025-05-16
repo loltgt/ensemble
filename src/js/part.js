@@ -44,7 +44,7 @@ class part {
    * @see Node.appendChild
    *
    * @param {Element} node A valid Element node
-   * @param {function} cb Callback function
+   * @param {function} [cb] Callback function
    * @returns {boolean}
    */
   bind(node, cb) {
@@ -59,7 +59,7 @@ class part {
    * @see Node.removeChild
    *
    * @param {Element} node A valid Element node
-   * @param {function} cb Callback function
+   * @param {function} [cb] Callback function
    * @returns {boolean}
    */
   unbind(node, cb) {
@@ -74,7 +74,7 @@ class part {
    * @see ChildNode.replaceWith
    *
    * @param {Element} node A valid Element node used as placeholder
-   * @param {function} cb Callback function
+   * @param {function} [cb] Callback function
    * @returns {boolean}
    */
   place(node, cb) {

@@ -32,7 +32,7 @@ class base {
    *
    * @constructs
    * @param {Element} [element] An optional valid Element node
-   * @param {object} options Options object
+   * @param {object} [options] Options object
    */
   constructor() {
     const args = arguments;
@@ -69,7 +69,7 @@ class base {
    * Note: Supports only first level depth.
    *
    * @param {object} defaults The default options Object
-   * @param {object} options An options Object to extend defaults
+   * @param {object} [options] An options Object to extend defaults
    * @returns {object}
    */
   opts(defaults, options = {}) {
@@ -94,7 +94,7 @@ class base {
    *
    * @param {string} [tag='div'] The Element node name or compo name, empty for Compo class reference
    * @param {string[]} [name] The compo name, used for CSS className
-   * @param {object} props Properties for compo
+   * @param {object} [props] Properties for compo
    * @returns {mixed} Instance of Compo or Compo class reference
    */
   compo(tag, name, props) {
@@ -108,7 +108,7 @@ class base {
    * When passed the first argument, makes a new Data instance 
    * otherwise returns a reference to the Data class.
    *
-   * @param {object} obj A starter Object, empty for Data class reference
+   * @param {object} [obj] A starter Object, empty for Data class reference
    * @returns {mixed} Instance of Data or Data class reference
    */
   data(obj) {
@@ -122,8 +122,8 @@ class base {
    * When the passed first argument is a string makes a new Event instance 
    * otherwise it returns a reference to the Event class.
    *
-   * @param {string} name A valid Event name
-   * @param {Element} node An Element node
+   * @param {string} [name] A valid Event name
+   * @param {Element} [node] An Element node
    * @returns {mixed} Instance of Event or Event class reference
    */
   event(name, node) {
@@ -138,8 +138,8 @@ class base {
    * @see Document.querySelector
    *
    * @param {string} query Text query
-   * @param {Element} node An Element node where to find
-   * @param {boolean} all Find multiple elements
+   * @param {Element} [node] An Element node where to find
+   * @param {boolean} [all] Find multiple elements
    * @return {mixed} Element or ElementCollection
    */
   selector(query, node, all = false) {
@@ -153,7 +153,7 @@ class base {
    * @see Node.cloneNode
    *
    * @param {Element} node An Element node to clone
-   * @param {boolean} deep Clone inner nodes
+   * @param {boolean} [deep] Clone inner nodes
    * @returns {boolean}
    */
   cloneNode(node, deep = false) {
@@ -192,9 +192,9 @@ class base {
    * @param {string} type Icons type: font, svg, symbol, shape
    * @param {string} name Icon name, CSS class name
    * @param {string} prefix Icon prefix, CSS class name
-   * @param {string} path Icon SVG path or SVG image src
-   * @param {string} hash Icon SVG symbol href or SVG image src hash
-   * @param {string} viewBox Icon SVG viewBox size
+   * @param {string} [path] Icon SVG path or SVG image src
+   * @param {string} [hash] Icon SVG symbol href or SVG image src hash
+   * @param {string} [viewBox] Icon SVG viewBox size
    */
   icon(type, name, prefix, path, hash, viewBox) {
     const ns = this.options.ns;
@@ -282,8 +282,8 @@ class base {
    * @see Window.setTimeout
    *
    * @param {function} func A callback function
-   * @param {mixed} node An Element node or a compo
-   * @param {number} time Default delay time in milliseconds
+   * @param {mixed} [node] An Element node or a compo
+   * @param {number} [time] Default delay time in milliseconds
    */
   delay(func, node, time) {
     const delay = node ? this.cst(node, 'transitionDuration') : 0;

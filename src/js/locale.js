@@ -101,7 +101,7 @@ class locale {
  * Default l10n object proxied
  *
  * @type {Proxy}
- * @param {locale} locale Locale object
+ * @param {l10n} l10n Locale object
  * @example
  * l10n.ETAGN;
  */
@@ -121,4 +121,5 @@ const l10n = new Proxy({}, {
 });
 
 
-export { locale, l10n };
+export default locale;
+export { locale, l10n, lang_en };

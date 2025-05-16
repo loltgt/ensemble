@@ -34,7 +34,7 @@ class Data {
    *
    * @constructs
    * @param {string} ns Data namespace
-   * @param {object} obj A starter Object
+   * @param {object} [obj] A starter Object
    */
   constructor(ns, obj) {
     if (obj && typeof obj == 'object') {
@@ -54,11 +54,11 @@ class Data {
    * With defer render you can render it in place.
    *
    * @param {string} tag Element node tag or compo name
-   * @param {string} name
-   * @param {object} props Properties for Element node or compo
-   * @param {boolean} defer Defer componet render
-   * @param {mixed} load Callback function, on load compo
-   * @param {mixed} unload Callback function, on unload compo
+   * @param {string} [name] The compo name, used for CSS className
+   * @param {object} [props] Properties for Element node or compo
+   * @param {boolean} [defer] Defer componet render
+   * @param {mixed} [load] Callback function, on load compo
+   * @param {mixed} [unload] Callback function, on unload compo
    * @returns {mixed} compo A compo element or an Object placeholder 
    */
   compo(tag, name, props, defer = false, load = false, unload = false) {
@@ -120,7 +120,7 @@ class Data {
    *
    * @async
    * @param {mixed} slot Reference of the element to render
-   * @param {boolean} force Force reflow
+   * @param {boolean} [force] Force reflow
    */
   async reflow(slot, force) {
     const el = this[this.ns];

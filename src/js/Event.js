@@ -37,7 +37,7 @@ class Event {
    * @constructs
    * @param {string} ns Event namespace
    * @param {string} name Event type name
-   * @param {Element} node A valid Element node or compo
+   * @param {Element} [node] A valid Element node or compo
    */
   constructor(ns, name, node) {
     const ns0 = this.ns = `_${ns}`;
@@ -54,7 +54,7 @@ class Event {
    * @see Element.addEventListener
    *
    * @param {function} func The function handler
-   * @param {mixed} options An options Object or useCapture boolean
+   * @param {mixed} [options] An options Object or useCapture boolean
    */
   add(func, options = false) {
     const {node, name} = this[this.ns];
@@ -92,7 +92,7 @@ class Event {
    *
    * @static
    * @param {Event} event An Event
-   * @param {object} options Options for focus
+   * @param {object} [options] Options for focus
    */
   static focus(event, options) {
     const {currentTarget} = event;
@@ -106,7 +106,7 @@ class Event {
    *
    * @static
    * @param {Event} event An Event
-   * @param {number} delay Delay time in milliseconds
+   * @param {number} [delay=100] Delay time in milliseconds
    */
   static blur(event, delay = 1e2) {
     const {currentTarget} = event;

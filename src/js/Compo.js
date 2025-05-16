@@ -112,8 +112,8 @@ class Compo extends part {
    *
    * @param {string} ns Compo namespace
    * @param {string} tag The Element node name or compo name
-   * @param {string} name Name for compo, used for CSS className
-   * @param {object} props Properties for compo
+   * @param {string} [name] Name for compo, used for CSS className
+   * @param {object} [props] Properties for compo
    * @param {?object} [options] An optional ElementCreationOptions object
    * @param {?object} [elementNS] Options for namespaced Element node
    * @param {string} [elementNS.namespaceURI] A valid namespace URI

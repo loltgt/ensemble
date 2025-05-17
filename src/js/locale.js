@@ -1,7 +1,7 @@
 /**
  * ensemble locale
  *
- * @version 0.4.0
+ * @version 0.5.0
  * @link https://github.com/loltgt/ensemble
  * @copyright Copyright (C) Leonardo Laureti
  * @license MIT License
@@ -12,36 +12,22 @@
 /**
  * @namespace ensemble
  * @exports locale
+ * @exports $locale
  * @exports l10n
+ * @exports lang_en
  */
 
-/**
- * Language english
- */
-/** @constant {object} */
-const lang_en_h = {
-  EARGN: (name) => `Provided argument "${name}" is not a valid name.`
-};
-/** @constant {object} */
-const lang_en = {
-  ETAGN: lang_en_h.EARGN('tag'),
-  EPROP: 'Provided property name is not a valid name.',
-  EMTAG: 'Object cannot be resolved into a valid node.',
-  EOPTS: lang_en_h.EARGN('options'),
-  EELEM: lang_en_h.EARGN('element'),
-  EMETH: lang_en_h.EARGN('method'),
-  DOM: 'Direct access to the node is discouraged.'
-};
 
 /**
  * Locale class L10n
  *
  * @class
- * @param {string} lang Current language name
+ * @param {string} [lang] Current language name
  * @example
- * const l10n = new locale("en");
+ * const l10n = new locale();
  * l10n.set("en", lang_en);
  * l10n.set("de", lang_de);
+ * l10n.tr("ETAGN");
  * l10n.lang = "de";
  * l10n.tr("ETAGN");
  */
@@ -52,8 +38,8 @@ class locale {
    *
    * @constructs
    */
-  constructor(lang) {
-    this.lang(lang);
+  constructor(lang = 'en') {
+    this.lang = lang;
   }
 
   /**
@@ -97,15 +83,17 @@ class locale {
   }
 }
 
+
 /**
- * Default l10n object proxied
+ * Locale proxy
  *
  * @type {Proxy}
- * @param {l10n} l10n Locale object
+ * @param {object} l10n Locale object
  * @example
+ * const l10n = $locale(lang_en);
  * l10n.ETAGN;
  */
-const l10n = new Proxy({}, {
+const $locale = (l10n) => new Proxy(l10n, {
   /**
    * Trap for getter
    *
@@ -121,5 +109,34 @@ const l10n = new Proxy({}, {
 });
 
 
+/**
+ * Default l10n object proxied
+ *
+ * Empty object
+ *
+ * @constant {object}
+ */
+const l10n = $locale({});
+
+
+/**
+ * Language english
+ */
+/** @constant {object} */
+const lang_en_h = {
+  EARGN: (name) => `Provided argument "${name}" is not a valid name.`
+};
+/** @constant {object} */
+const lang_en = {
+  ETAGN: lang_en_h.EARGN('tag'),
+  EPROP: 'Provided property name is not a valid name.',
+  EMTAG: 'Object cannot be resolved into a valid node.',
+  EOPTS: lang_en_h.EARGN('options'),
+  EELEM: lang_en_h.EARGN('element'),
+  EMETH: lang_en_h.EARGN('method'),
+  DOM: 'Direct access to the node is discouraged.'
+};
+
+
 export default locale;
-export { locale, l10n, lang_en };
+export { locale, $locale, l10n, lang_en };

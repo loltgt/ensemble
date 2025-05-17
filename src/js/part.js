@@ -1,7 +1,7 @@
 /**
  * ensemble part
  *
- * @version 0.4.0
+ * @version 0.5.0
  * @link https://github.com/loltgt/ensemble
  * @copyright Copyright (C) Leonardo Laureti
  * @license MIT License
@@ -10,7 +10,10 @@
 'use strict';
 
 /**
+ * @namespace ensemble
  * @exports part
+ * @exports REJECTED_TAGS
+ * @exports DENIED_PROPS
  */
 
 import { l10n } from './locale.js';
